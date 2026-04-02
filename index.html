@@ -1,1118 +1,1212 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>&#9917; Papillon Banco Predictions &#8226; EPL &#8226; UCL &#8226; World Cup 2026</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <style>
-        :root {
-            --green: #00e87a;
-            --green-dim: #00b55f;
-            --bg: #080c0f;
-            --surface: #0f1419;
-            --surface2: #161d25;
-            --border: rgba(255,255,255,0.07);
-            --text: #e8edf2;
-            --muted: #6b7f8e;
-            --accent: #00e87a;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            background: var(--bg);
-            color: var(--text);
-            font-family: 'DM Sans', sans-serif;
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        /* Noise overlay */
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
-            pointer-events: none;
-            z-index: 1000;
-            opacity: 0.6;
-        }
-
-        /* ===== HEADER ===== */
-        .header {
-            background: linear-gradient(160deg, #0a1520 0%, #080c0f 60%);
-            border-bottom: 1px solid var(--border);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .header::after {
-            content: '';
-            position: absolute;
-            top: -120px;
-            right: -80px;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(0,232,122,0.06) 0%, transparent 70%);
-            pointer-events: none;
-        }
-
-        .header-inner {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 36px 48px 32px;
-        }
-
-        .header-top {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: 24px;
-            flex-wrap: wrap;
-        }
-
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 18px;
-        }
-
-        .brand-icon {
-            width: 56px;
-            height: 56px;
-            background: var(--green);
-            border-radius: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            flex-shrink: 0;
-            box-shadow: 0 0 30px rgba(0,232,122,0.3);
-        }
-
-        .brand-title {
-            font-family: 'Syne', sans-serif;
-            font-size: 2.4rem;
-            font-weight: 800;
-            letter-spacing: -0.03em;
-            line-height: 1;
-            color: #fff;
-        }
-
-        .brand-sub {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.78rem;
-            color: var(--green);
-            margin-top: 6px;
-            letter-spacing: 0.05em;
-        }
-
-        .header-meta {
-            display: flex;
-            align-items: center;
-            gap: 28px;
-            flex-wrap: wrap;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 24px;
-        }
-
-        .nav-links a {
-            color: var(--muted);
-            text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 500;
-            transition: color 0.2s;
-            cursor: pointer;
-        }
-
-        .nav-links a:hover { color: var(--green); }
-
-        .live-badge {
-            display: flex;
-            align-items: center;
-            gap: 7px;
-            background: rgba(0,232,122,0.08);
-            border: 1px solid rgba(0,232,122,0.2);
-            color: var(--green);
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.7rem;
-            font-weight: 700;
-            letter-spacing: 0.1em;
-            padding: 6px 14px;
-            border-radius: 100px;
-        }
-
-        .live-dot {
-            width: 7px;
-            height: 7px;
-            background: var(--green);
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse { 0%,100% { opacity:1; box-shadow:0 0 0 0 rgba(0,232,122,0.4); } 50% { opacity:0.6; box-shadow:0 0 0 5px rgba(0,232,122,0); } }
-
-        .timestamp {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.72rem;
-            color: var(--muted);
-            text-align: right;
-            line-height: 1.6;
-        }
-
-        .timestamp span { color: var(--green); display: block; }
-
-        /* BETTING SNAPSHOT */
-        .snapshot {
-            margin-top: 28px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 28px 32px;
-        }
-
-        .snapshot-title {
-            font-family: 'Syne', sans-serif;
-            font-size: 0.85rem;
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: var(--muted);
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .snapshot-title i { color: var(--green); }
-
-        .snapshot-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-        }
-
-        @media (max-width: 900px) { .snapshot-grid { grid-template-columns: 1fr; } }
-
-        .snap-card {
-            background: var(--surface2);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 20px 22px;
-        }
-
-        .snap-card-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 14px;
-        }
-
-        .snap-card-header span { font-size: 1.4rem; }
-        .snap-card-title { font-size: 0.82rem; font-weight: 500; color: var(--muted); }
-
-        .snap-fav {
-            font-family: 'Syne', sans-serif;
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #fff;
-        }
-
-        .snap-prob {
-            display: inline-block;
-            background: var(--green);
-            color: #000;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.7rem;
-            font-weight: 700;
-            padding: 3px 10px;
-            border-radius: 100px;
-            margin-top: 6px;
-        }
-
-        .snap-note {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.68rem;
-            color: var(--green);
-            margin-top: 10px;
-        }
-
-        /* ===== SECTIONS ===== */
-        .section {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 56px 48px;
-        }
-
-        .section-alt {
-            background: linear-gradient(180deg, rgba(0,232,122,0.015) 0%, transparent 100%);
-        }
-
-        .section-header {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            margin-bottom: 36px;
-        }
-
-        .section-icon { font-size: 2.8rem; }
-
-        .section-title {
-            font-family: 'Syne', sans-serif;
-            font-size: 2rem;
-            font-weight: 800;
-            letter-spacing: -0.02em;
-            color: #fff;
-        }
-
-        .section-sub {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.75rem;
-            color: var(--green);
-            margin-top: 4px;
-            letter-spacing: 0.04em;
-        }
-
-        /* ===== STANDINGS TABLE ===== */
-        .standings-block {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 32px;
-            margin-bottom: 40px;
-            overflow-x: auto;
-        }
-
-        .block-title {
-            font-family: 'Syne', sans-serif;
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #fff;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .block-title i { color: var(--green); }
-
-        table { border-collapse: collapse; width: 100%; }
-
-        thead tr {
-            border-bottom: 1px solid var(--border);
-        }
-
-        th {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.68rem;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: var(--muted);
-            padding: 8px 12px;
-            text-align: left;
-            font-weight: 500;
-        }
-
-        th.num, td.num { text-align: center; }
-
-        td {
-            padding: 11px 12px;
-            font-size: 0.88rem;
-        }
-
-        tr:nth-child(even) td { background: rgba(255,255,255,0.018); }
-
-        .pos-num {
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: 700;
-            font-size: 0.9rem;
-        }
-
-        .team-name {
-            font-weight: 600;
-        }
-
-        .pts-val {
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: 700;
-            color: #fff;
-        }
-
-        .gd-pos { color: var(--green); font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; }
-        .gd-neg { color: #f87171; font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; }
-
-        .top4-row td:first-child { border-left: 3px solid var(--green); padding-left: 9px; }
-        .top1-row .team-name { color: var(--green); }
-
-        .standings-note {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.68rem;
-            color: var(--muted);
-            margin-top: 14px;
-        }
-
-        /* ===== MATCH CARDS ===== */
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-        }
-
-        @media (max-width: 1100px) { .cards-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 680px) { .cards-grid { grid-template-columns: 1fr; } }
-
-        .cards-grid-2 { grid-template-columns: repeat(2, 1fr); }
-        @media (max-width: 800px) { .cards-grid-2 { grid-template-columns: 1fr; } }
-
-        .match-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 18px;
-            padding: 22px 24px;
-            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .match-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--green), transparent);
-            opacity: 0;
-            transition: opacity 0.25s;
-        }
-
-        .match-card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(0,232,122,0.18);
-            box-shadow: 0 16px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(0,232,122,0.06);
-        }
-
-        .match-card:hover::before { opacity: 1; }
-
-        .match-time {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.68rem;
-            color: var(--muted);
-            margin-bottom: 18px;
-            letter-spacing: 0.03em;
-        }
-
-        .match-teams {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .team { flex: 1; text-align: center; }
-
-        .team-label {
-            font-family: 'Syne', sans-serif;
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: #fff;
-            line-height: 1.2;
-        }
-
-        .score-box {
-            flex-shrink: 0;
-            background: #0a1520;
-            border: 1px solid rgba(0,232,122,0.15);
-            border-radius: 12px;
-            padding: 10px 16px;
-            text-align: center;
-        }
-
-        .score-nums {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--green);
-            line-height: 1;
-            letter-spacing: 0.05em;
-        }
-
-        .score-label {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.55rem;
-            letter-spacing: 0.12em;
-            color: var(--muted);
-            margin-top: 4px;
-            text-transform: uppercase;
-        }
-
-        .match-verdict {
-            margin-top: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding-top: 14px;
-            border-top: 1px solid var(--border);
-        }
-
-        .verdict-text {
-            font-size: 0.8rem;
-            font-weight: 500;
-            color: var(--green);
-        }
-
-        .confidence-bar {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .conf-track {
-            width: 60px;
-            height: 4px;
-            background: rgba(255,255,255,0.08);
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .conf-fill {
-            height: 100%;
-            background: var(--green);
-            border-radius: 10px;
-        }
-
-        .conf-pct {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.72rem;
-            color: var(--muted);
-        }
-
-        /* ===== FOOTER ===== */
-        .footer {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 32px 48px;
-            border-top: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 16px;
-        }
-
-        .footer-left {
-            font-size: 0.78rem;
-            color: var(--muted);
-            line-height: 1.7;
-        }
-
-        .footer-right {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.72rem;
-            color: var(--green);
-            text-align: right;
-        }
-
-        /* UCL badge chip */
-        .matchday-chip {
-            display: inline-block;
-            background: rgba(0,232,122,0.08);
-            border: 1px solid rgba(0,232,122,0.15);
-            color: var(--green);
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.65rem;
-            font-weight: 700;
-            letter-spacing: 0.1em;
-            padding: 3px 10px;
-            border-radius: 100px;
-            text-transform: uppercase;
-            margin-bottom: 18px;
-            display: inline-flex;
-        }
-
-        .divider-line {
-            width: 100%;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--border), transparent);
-            margin: 0;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>&#9917; Papillon Banco Predictions &bull; LIVE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root {
+  --green:#00e87a; --green-dim:rgba(0,232,122,0.12);
+  --bg:#080c0f; --s1:#0f1419; --s2:#161d25;
+  --border:rgba(255,255,255,0.07); --text:#e8edf2; --muted:#6b7f8e;
+  --gold:#fbbf24; --gold-dim:rgba(251,191,36,0.12);
+  --red:#f87171;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh}
+
+/* HEADER */
+.header{background:linear-gradient(160deg,#0a1520,#080c0f);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;backdrop-filter:blur(12px)}
+.header-inner{max-width:1320px;margin:0 auto;padding:18px 40px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:14px}
+.brand-icon{width:46px;height:46px;background:var(--green);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 0 24px rgba(0,232,122,0.35);flex-shrink:0}
+.brand-title{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;letter-spacing:-0.02em;color:#fff}
+.brand-sub{font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--green);margin-top:3px}
+.header-right{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.nav a{color:var(--muted);font-size:0.82rem;font-weight:500;cursor:pointer;text-decoration:none;transition:color .2s;margin-left:20px}
+.nav a:hover{color:var(--green)}
+.live-pill{display:flex;align-items:center;gap:7px;background:rgba(0,232,122,0.08);border:1px solid rgba(0,232,122,0.2);color:var(--green);font-family:'JetBrains Mono',monospace;font-size:0.65rem;font-weight:700;letter-spacing:.1em;padding:5px 13px;border-radius:100px}
+.live-dot{width:7px;height:7px;background:var(--green);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(0,232,122,0.4)}50%{opacity:.6;box-shadow:0 0 0 5px rgba(0,232,122,0)}}
+
+/* CLOCK BAR */
+.clock-bar{background:#0a1218;border-bottom:1px solid var(--border);padding:8px 40px}
+.clock-inner{max-width:1320px;margin:0 auto;display:flex;align-items:center;gap:28px;flex-wrap:wrap}
+.clock-zone{display:flex;align-items:center;gap:10px}
+.clock-city{font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;min-width:54px}
+.clock-time{font-family:'JetBrains Mono',monospace;font-size:0.88rem;font-weight:700;color:#fff}
+.clock-time.active{color:var(--green)}
+.clock-ampm{font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--muted);margin-left:3px}
+.clock-sep{color:rgba(255,255,255,.08);font-size:1.1rem}
+
+/* REFRESH BAR */
+.refresh-bar{background:var(--s1);border-bottom:1px solid var(--border);padding:10px 40px}
+.refresh-inner{max-width:1320px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.refresh-status{font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--muted)}
+.refresh-status span{color:var(--green)}
+.refresh-btn{display:flex;align-items:center;gap:8px;background:var(--green);color:#000;font-family:'Syne',sans-serif;font-weight:700;font-size:0.8rem;padding:8px 20px;border-radius:100px;border:none;cursor:pointer;transition:all .2s;letter-spacing:.02em}
+.refresh-btn:hover{background:#00ff87;transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,232,122,0.35)}
+.refresh-btn.loading{opacity:.7;pointer-events:none}
+.refresh-btn i{transition:transform .6s}
+.refresh-btn.loading i{animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.auto-badge{font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--muted);background:rgba(255,255,255,0.04);border:1px solid var(--border);padding:4px 10px;border-radius:100px}
+
+/* MAIN */
+.main{max-width:1320px;margin:0 auto;padding:32px 40px}
+
+/* TICKER */
+.ticker-wrap{overflow:hidden;background:rgba(0,232,122,0.04);border:1px solid rgba(0,232,122,0.1);border-radius:12px;margin-bottom:28px;height:36px;display:flex;align-items:center}
+.ticker-label{background:var(--green);color:#000;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:0.65rem;letter-spacing:.1em;padding:0 14px;height:100%;display:flex;align-items:center;border-radius:10px 0 0 10px;white-space:nowrap;flex-shrink:0}
+.ticker-track{display:flex;gap:48px;animation:ticker 40s linear infinite;will-change:transform;padding:0 24px}
+.ticker-wrap:hover .ticker-track{animation-play-state:paused}
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.ticker-item{font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--text);white-space:nowrap;display:flex;align-items:center;gap:8px}
+.ticker-item .t-name{color:var(--muted)}
+.ticker-item .t-val{color:var(--green);font-weight:700}
+
+/* SECTION TITLES */
+.sec-head{display:flex;align-items:center;gap:16px;margin-bottom:20px;margin-top:36px}
+.sec-icon{font-size:2rem}
+.sec-title{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;letter-spacing:-.02em;color:#fff}
+.sec-sub{font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--green);margin-top:3px}
+
+/* ODDS CARDS */
+.odds-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-bottom:16px}
+.odds-card{background:var(--s1);border:1px solid var(--border);border-radius:16px;padding:18px 20px;position:relative;overflow:hidden;transition:all .25s}
+.odds-card:hover{border-color:rgba(0,232,122,.2);transform:translateY(-3px);box-shadow:0 12px 30px rgba(0,0,0,.4)}
+.odds-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--green),transparent);opacity:0;transition:opacity .25s}
+.odds-card:hover::before{opacity:1}
+.oc-label{font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.oc-question{font-family:'Syne',sans-serif;font-size:0.92rem;font-weight:700;color:#fff;margin-bottom:12px;line-height:1.3}
+.oc-prob{font-family:'JetBrains Mono',monospace;font-size:2rem;font-weight:700;color:var(--green);line-height:1}
+.oc-outcome{font-size:0.8rem;color:var(--muted);margin-top:4px}
+.oc-bar{height:4px;background:rgba(255,255,255,.06);border-radius:10px;margin-top:12px;overflow:hidden}
+.oc-fill{height:100%;background:var(--green);border-radius:10px;transition:width .8s ease}
+.oc-footer{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
+.oc-vol{font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--muted)}
+.oc-live-tag{background:rgba(0,232,122,.1);color:var(--green);font-family:'JetBrains Mono',monospace;font-size:0.58rem;font-weight:700;letter-spacing:.08em;padding:2px 8px;border-radius:100px;border:1px solid rgba(0,232,122,.2)}
+.oc-skeleton{background:linear-gradient(90deg,var(--s2) 25%,var(--s1) 50%,var(--s2) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+/* LIVESCORES */
+.scores-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}
+.score-card{background:var(--s1);border:1px solid var(--border);border-radius:16px;padding:16px 18px;transition:all .25s}
+.score-card.live-match{border-color:rgba(0,232,122,.25);box-shadow:0 0 0 1px rgba(0,232,122,.08)}
+.score-card:hover{transform:translateY(-2px)}
+.sc-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.sc-comp{font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.sc-status-live{background:rgba(239,68,68,.12);color:#f87171;font-family:'JetBrains Mono',monospace;font-size:0.6rem;font-weight:700;padding:2px 8px;border-radius:100px;border:1px solid rgba(239,68,68,.2);animation:pulse 2s infinite}
+.sc-status-ft{background:rgba(255,255,255,.05);color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:0.6rem;padding:2px 8px;border-radius:100px}
+.sc-status-ns{background:rgba(0,232,122,.08);color:var(--green);font-family:'JetBrains Mono',monospace;font-size:0.6rem;padding:2px 8px;border-radius:100px}
+.sc-teams{display:flex;align-items:center;gap:10px}
+.sc-team{flex:1}
+.sc-team-name{font-family:'Syne',sans-serif;font-size:0.88rem;font-weight:700;color:#fff}
+.sc-score-box{background:#0a1520;border:1px solid rgba(0,232,122,.15);border-radius:10px;padding:8px 14px;text-align:center;flex-shrink:0}
+.sc-score{font-family:'JetBrains Mono',monospace;font-size:1.4rem;font-weight:700;color:var(--green);letter-spacing:.05em}
+
+/* NEWS */
+.news-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:14px}
+.news-card{background:var(--s1);border:1px solid var(--border);border-radius:16px;padding:18px 20px;transition:all .25s;cursor:pointer}
+.news-card:hover{border-color:rgba(0,232,122,.2);transform:translateY(-2px)}
+.nc-source{font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--green);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.nc-title{font-family:'Syne',sans-serif;font-size:0.92rem;font-weight:700;color:#fff;line-height:1.35;margin-bottom:8px}
+.nc-desc{font-size:0.8rem;color:var(--muted);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.nc-time{font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--muted);margin-top:10px}
+
+/* PREDICTIONS */
+.pred-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.pred-card{background:var(--s1);border:1px solid var(--border);border-radius:16px;padding:20px 22px;transition:all .25s;position:relative;overflow:hidden}
+.pred-card:hover{transform:translateY(-3px);border-color:rgba(0,232,122,.18);box-shadow:0 14px 32px rgba(0,0,0,.4)}
+.pc-time{font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--muted);margin-bottom:14px}
+.pc-teams{display:flex;align-items:center;gap:10px}
+.pc-team{flex:1;text-align:center}
+.pc-team-name{font-family:'Syne',sans-serif;font-size:0.88rem;font-weight:700;color:#fff;line-height:1.2}
+.pc-score{background:#0a1520;border:1px solid rgba(0,232,122,.15);border-radius:10px;padding:8px 14px;flex-shrink:0;text-align:center}
+.pc-score-num{font-family:'JetBrains Mono',monospace;font-size:1.5rem;font-weight:700;color:var(--green)}
+.pc-score-lbl{font-family:'JetBrains Mono',monospace;font-size:0.5rem;color:var(--muted);margin-top:2px;text-transform:uppercase;letter-spacing:.1em}
+.pc-footer{margin-top:14px;padding-top:12px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.pc-verdict{font-size:0.78rem;color:var(--green);font-weight:500}
+.conf-row{display:flex;align-items:center;gap:8px}
+.conf-bar{width:56px;height:3px;background:rgba(255,255,255,.07);border-radius:10px;overflow:hidden}
+.conf-fill{height:100%;background:var(--green);border-radius:10px}
+.conf-pct{font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--muted)}
+
+/* ============================
+   EPL STANDINGS — SWIPEABLE CARDS
+   ============================ */
+.standings-outer{position:relative;margin-bottom:24px}
+.standings-scroll-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;cursor:grab;user-select:none}
+.standings-scroll-wrap::-webkit-scrollbar{display:none}
+.standings-scroll-wrap.dragging{cursor:grabbing}
+.standings-cards-track{display:flex;gap:10px;padding:4px 2px 8px;width:max-content}
+
+/* Each card = one row */
+.st-card{background:var(--s1);border:1px solid var(--border);border-radius:14px;padding:14px 18px;width:340px;flex-shrink:0;transition:border-color .2s,transform .15s;position:relative;overflow:hidden}
+.st-card:hover{border-color:rgba(0,232,122,.18);transform:translateY(-2px)}
+.st-card.ucl{border-left:3px solid var(--green)}
+.st-card.uel{border-left:3px solid #60a5fa}
+.st-card.relegation{border-left:3px solid var(--red)}
+.st-card.top1{border-left:3px solid var(--green)}
+.st-card.top1 .st-team{color:var(--green)}
+.st-card::before{content:'';position:absolute;top:0;right:0;width:60px;height:100%;background:linear-gradient(90deg,transparent,rgba(0,232,122,0.03));pointer-events:none}
+
+.st-card-head{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.st-pos{font-family:'JetBrains Mono',monospace;font-size:1.4rem;font-weight:700;color:var(--muted);min-width:32px}
+.st-pos.p1{color:var(--green)}
+.st-pos.p23{color:#e2e8f0}
+.st-team{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:#fff;flex:1}
+.st-pts{font-family:'JetBrains Mono',monospace;font-size:1.4rem;font-weight:700;color:#fff}
+.st-pts-lbl{font-family:'JetBrains Mono',monospace;font-size:0.55rem;color:var(--muted);text-align:right;margin-top:1px}
+
+.st-stats{display:grid;grid-template-columns:repeat(6,1fr);gap:4px}
+.st-stat{text-align:center;background:rgba(255,255,255,.03);border-radius:8px;padding:5px 4px}
+.st-stat-val{font-family:'JetBrains Mono',monospace;font-size:0.78rem;font-weight:700;color:#e2e8f0}
+.st-stat-lbl{font-family:'JetBrains Mono',monospace;font-size:0.5rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+.gd-p{color:var(--green)}
+.gd-n{color:var(--red)}
+.gd-z{color:var(--muted)}
+
+.st-badge{display:inline-flex;align-items:center;gap:5px;font-family:'JetBrains Mono',monospace;font-size:0.55rem;font-weight:700;letter-spacing:.08em;padding:2px 8px;border-radius:100px;margin-top:8px}
+.st-badge.ucl-b{background:rgba(0,232,122,.08);color:var(--green);border:1px solid rgba(0,232,122,.2)}
+.st-badge.uel-b{background:rgba(96,165,250,.08);color:#60a5fa;border:1px solid rgba(96,165,250,.2)}
+.st-badge.rel-b{background:rgba(248,113,113,.08);color:var(--red);border:1px solid rgba(248,113,113,.2)}
+
+/* Scroll progress dots */
+.st-dots{display:flex;justify-content:center;gap:5px;margin-top:8px}
+.st-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.08);transition:all .25s;cursor:pointer}
+.st-dot.active{background:var(--green);width:18px;border-radius:3px}
+
+/* WORLD CUP SECTION */
+.wc-banner{background:linear-gradient(135deg,#0a1a12,#0f1f0a);border:1px solid rgba(0,232,122,.15);border-radius:16px;padding:20px 26px;margin-bottom:20px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.wc-flag{font-size:2.8rem;filter:drop-shadow(0 0 12px rgba(0,232,122,.3))}
+.wc-info{flex:1;min-width:200px}
+.wc-title{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;color:#fff}
+.wc-sub{font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--green);margin-top:4px}
+.wc-countdown{font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--muted);margin-top:6px}
+.wc-countdown span{color:#fff;font-weight:700}
+.wc-favs{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.wc-fav{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:10px;padding:8px 14px;text-align:center}
+.wc-fav-team{font-family:'Syne',sans-serif;font-size:0.82rem;font-weight:700;color:#fff}
+.wc-fav-odds{font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--green);margin-top:2px}
+.wc-fav-label{font-family:'JetBrains Mono',monospace;font-size:0.52rem;color:var(--muted);margin-top:1px}
+
+.wc-group-title{font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;margin:16px 0 10px;padding-left:2px;display:flex;align-items:center;gap:8px}
+.wc-group-title::after{content:'';flex:1;height:1px;background:var(--border)}
+
+.pred-card.wc-card{border-color:rgba(251,191,36,.12)}
+.pred-card.wc-card:hover{border-color:rgba(251,191,36,.3)}
+.pred-card.wc-card .pc-score{border-color:rgba(251,191,36,.2)}
+.pred-card.wc-card .pc-score-num{color:var(--gold)}
+.pred-card.wc-card .pc-verdict{color:var(--gold)}
+.pred-card.wc-card .conf-fill{background:var(--gold)}
+
+/* STANDINGS TABLE (original - hidden, replaced by cards) */
+.table-wrap{background:var(--s1);border:1px solid var(--border);border-radius:16px;padding:24px 28px;margin-bottom:12px}
+.table-title{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:#fff;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.table-title i{color:var(--green)}
+.note{font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--muted);margin-top:12px}
+
+/* ERROR / EMPTY */
+.fetch-error{text-align:center;padding:32px;color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:0.75rem}
+.fetch-error i{font-size:1.5rem;margin-bottom:10px;display:block;color:rgba(255,255,255,.15)}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:24px 40px;max-width:1320px;margin:0 auto;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.ft-left{font-size:0.75rem;color:var(--muted);line-height:1.7}
+.ft-right{font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--green);text-align:right}
+
+@media(max-width:700px){
+  .header-inner,.main,.refresh-inner,footer{padding-left:18px;padding-right:18px}
+  .refresh-bar,.clock-bar{padding-left:18px;padding-right:18px}
+  .odds-grid,.scores-grid,.pred-grid,.news-grid{grid-template-columns:1fr}
+  .st-card{width:300px}
+  .wc-favs{gap:6px}
+}
+</style>
 </head>
 <body>
 
-    <!-- ===== HEADER ===== -->
-    <header class="header">
-        <div class="header-inner">
-            <div class="header-top">
-                <div class="brand">
-                    <div class="brand-icon">&#9917;</div>
-                    <div>
-                        <div class="brand-title">Papillon Banco Predictions &#127942;</div>
-                        <div class="brand-sub">@papillonbanco90 &nbsp;&middot;&nbsp; EPL &nbsp;&middot;&nbsp; UCL &nbsp;&middot;&nbsp; World Cup 2026</div>
-                    </div>
-                </div>
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <div class="brand">
+      <div class="brand-icon">&#9917;</div>
+      <div>
+        <div class="brand-title">Papillon Banco Predictions &#127942;</div>
+        <div class="brand-sub">@papillonbanco90 &nbsp;&bull;&nbsp; EPL &nbsp;&bull;&nbsp; UCL &nbsp;&bull;&nbsp; World Cup 2026</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <nav class="nav">
+        <a onclick="document.getElementById('s-odds').scrollIntoView({behavior:'smooth'})">Polymarket</a>
+        <a onclick="document.getElementById('s-scores').scrollIntoView({behavior:'smooth'})">Scores</a>
+        <a onclick="document.getElementById('s-preds').scrollIntoView({behavior:'smooth'})">Predictions</a>
+        <a onclick="document.getElementById('s-wc').scrollIntoView({behavior:'smooth'})">World Cup</a>
+      </nav>
+      <div class="live-pill"><div class="live-dot"></div>LIVE</div>
+    </div>
+  </div>
+</header>
 
-                <div class="header-meta">
-                    <nav class="nav-links">
-                        <a onclick="document.getElementById('epl').scrollIntoView({behavior:'smooth'})">Premier League</a>
-                        <a onclick="document.getElementById('ucl').scrollIntoView({behavior:'smooth'})">Champions League</a>
-                        <a onclick="document.getElementById('wc').scrollIntoView({behavior:'smooth'})">World Cup 2026</a>
-                    </nav>
-                    <div class="live-badge">
-                        <div class="live-dot"></div>
-                        LIVE MARKETS
-                    </div>
-                    <div class="timestamp">
-                        Portland, OR &middot; PDT<br>
-                        <span>Updated: April 1, 2026 &middot; 20:15</span>
-                    </div>
-                </div>
-            </div>
+<!-- WORLD CLOCKS -->
+<div class="clock-bar">
+  <div class="clock-inner">
+    <div class="clock-zone">
+      <span class="clock-city">Portland</span>
+      <span class="clock-time active" id="tz-portland">--:--</span><span class="clock-ampm" id="tz-portland-ap"></span>
+    </div>
+    <span class="clock-sep">|</span>
+    <div class="clock-zone">
+      <span class="clock-city">New York</span>
+      <span class="clock-time" id="tz-ny">--:--</span><span class="clock-ampm" id="tz-ny-ap"></span>
+    </div>
+    <span class="clock-sep">|</span>
+    <div class="clock-zone">
+      <span class="clock-city">London</span>
+      <span class="clock-time" id="tz-lon">--:--</span><span class="clock-ampm" id="tz-lon-ap"></span>
+    </div>
+    <span class="clock-sep">|</span>
+    <div class="clock-zone">
+      <span class="clock-city">Madrid</span>
+      <span class="clock-time" id="tz-mad">--:--</span><span class="clock-ampm" id="tz-mad-ap"></span>
+    </div>
+    <span class="clock-sep">|</span>
+    <div class="clock-zone">
+      <span class="clock-city">Lisbon</span>
+      <span class="clock-time" id="tz-lis">--:--</span><span class="clock-ampm" id="tz-lis-ap"></span>
+    </div>
+    <span class="clock-sep">|</span>
+    <div class="clock-zone">
+      <span class="clock-city">Paris</span>
+      <span class="clock-time" id="tz-par">--:--</span><span class="clock-ampm" id="tz-par-ap"></span>
+    </div>
+  </div>
+</div>
 
-            <!-- SNAPSHOT -->
-            <div class="snapshot">
-                <div class="snapshot-title">
-                    <i class="fa-solid fa-chart-simple"></i>
-                    Latest Polymarket Betting Favorites - April 1, 2026
-                </div>
-                <div class="snapshot-grid">
-                    <div class="snap-card">
-                        <div class="snap-card-header">
-                            <span>&#127988;&#917607;&#917602;&#917605;&#917622;&#917607;&#917631;</span>
-                            <div class="snap-card-title">Premier League Winner 2025/26</div>
-                        </div>
-                        <div class="snap-fav">Arsenal</div>
-                        <div><span class="snap-prob">89% Polymarket</span></div>
-                        <div class="snap-note">Man City &middot; 12% &nbsp;|&nbsp; 9-pt gap, 31 games played</div>
-                    </div>
-                    <div class="snap-card">
-                        <div class="snap-card-header">
-                            <span>&#11088;</span>
-                            <div class="snap-card-title">Champions League Winner 2025/26</div>
-                        </div>
-                        <div class="snap-fav">Arsenal</div>
-                        <div><span class="snap-prob">~27% Polymarket</span></div>
-                        <div class="snap-note">QF 1st legs: Apr 7-8 &middot; Final: May 30 &middot; Budapest</div>
-                    </div>
-                    <div class="snap-card">
-                        <div class="snap-card-header">
-                            <span>&#127757;</span>
-                            <div class="snap-card-title">2026 FIFA World Cup Winner</div>
-                        </div>
-                        <div class="snap-fav">Spain</div>
-                        <div><span class="snap-prob">~16% Polymarket</span></div>
-                        <div class="snap-note">Tournament starts June 11, 2026</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
+<!-- REFRESH BAR -->
+<div class="refresh-bar">
+  <div class="refresh-inner">
+    <div class="refresh-status">
+      Last updated: <span id="last-updated">Loading...</span>
+      &nbsp;&nbsp;&bull;&nbsp;&nbsp;
+      Auto-refresh: <span id="countdown">60s</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <div class="auto-badge" id="auto-label">&#128257; Auto ON</div>
+      <button class="refresh-btn" id="refresh-btn" onclick="triggerRefresh()">
+        <i class="fa-solid fa-rotate-right"></i> Refresh Now
+      </button>
+    </div>
+  </div>
+</div>
 
-    <!-- ===== EPL SECTION ===== -->
-    <div id="epl">
-        <div class="section">
-            <div class="section-header">
-                <div class="section-icon">&#127988;&#917607;&#917602;&#917605;&#917622;&#917607;&#917631;</div>
-                <div>
-                    <div class="section-title">English Premier League - Matchweek 32</div>
-                    <div class="section-sub">April 10-12, 2026 &nbsp;&middot;&nbsp; Papillon Banco score predictions</div>
-                </div>
-            </div>
+<!-- MAIN -->
+<div class="main">
 
-            <!-- STANDINGS -->
-            <div class="standings-block">
-                <div class="block-title"><i class="fa-solid fa-table-list"></i> Current EPL Standings - as of March 22, 2026</div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Pos</th>
-                            <th>Team</th>
-                            <th class="num">P</th>
-                            <th class="num">W</th>
-                            <th class="num">D</th>
-                            <th class="num">L</th>
-                            <th class="num">GF</th>
-                            <th class="num">GA</th>
-                            <th class="num">GD</th>
-                            <th class="num">Pts</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="top1-row top4-row">
-                            <td><span class="pos-num">1</span></td>
-                            <td><span class="team-name">Arsenal</span></td>
-                            <td class="num">31</td><td class="num">21</td><td class="num">7</td><td class="num">3</td>
-                            <td class="num">61</td><td class="num">22</td>
-                            <td class="num"><span class="gd-pos">+39</span></td>
-                            <td class="num"><span class="pts-val">70</span></td>
-                        </tr>
-                        <tr class="top4-row">
-                            <td><span class="pos-num">2</span></td>
-                            <td><span class="team-name">Manchester City</span></td>
-                            <td class="num">30</td><td class="num">18</td><td class="num">7</td><td class="num">5</td>
-                            <td class="num">60</td><td class="num">28</td>
-                            <td class="num"><span class="gd-pos">+32</span></td>
-                            <td class="num"><span class="pts-val">61</span></td>
-                        </tr>
-                        <tr class="top4-row">
-                            <td><span class="pos-num">3</span></td>
-                            <td><span class="team-name">Manchester United</span></td>
-                            <td class="num">31</td><td class="num">15</td><td class="num">10</td><td class="num">6</td>
-                            <td class="num">56</td><td class="num">43</td>
-                            <td class="num"><span class="gd-pos">+13</span></td>
-                            <td class="num"><span class="pts-val">55</span></td>
-                        </tr>
-                        <tr class="top4-row">
-                            <td><span class="pos-num">4</span></td>
-                            <td><span class="team-name">Aston Villa</span></td>
-                            <td class="num">31</td><td class="num">16</td><td class="num">6</td><td class="num">9</td>
-                            <td class="num">42</td><td class="num">37</td>
-                            <td class="num"><span class="gd-pos">+5</span></td>
-                            <td class="num"><span class="pts-val">54</span></td>
-                        </tr>
-                        <tr>
-                            <td><span class="pos-num">5</span></td>
-                            <td><span class="team-name">Liverpool</span></td>
-                            <td class="num">31</td><td class="num">14</td><td class="num">7</td><td class="num">10</td>
-                            <td class="num">50</td><td class="num">42</td>
-                            <td class="num"><span class="gd-pos">+8</span></td>
-                            <td class="num"><span class="pts-val">49</span></td>
-                        </tr>
-                        <tr>
-                            <td><span class="pos-num">6</span></td>
-                            <td><span class="team-name">Chelsea</span></td>
-                            <td class="num">31</td><td class="num">13</td><td class="num">9</td><td class="num">9</td>
-                            <td class="num">53</td><td class="num">38</td>
-                            <td class="num"><span class="gd-pos">+15</span></td>
-                            <td class="num"><span class="pts-val">48</span></td>
-                        </tr>
-                        <tr>
-                            <td><span class="pos-num">7</span></td>
-                            <td><span class="team-name">Brentford</span></td>
-                            <td class="num">31</td><td class="num">13</td><td class="num">7</td><td class="num">11</td>
-                            <td class="num">46</td><td class="num">42</td>
-                            <td class="num"><span class="gd-pos">+4</span></td>
-                            <td class="num"><span class="pts-val">46</span></td>
-                        </tr>
-                        <tr>
-                            <td><span class="pos-num">8</span></td>
-                            <td><span class="team-name">Everton</span></td>
-                            <td class="num">31</td><td class="num">13</td><td class="num">7</td><td class="num">11</td>
-                            <td class="num">37</td><td class="num">35</td>
-                            <td class="num"><span class="gd-pos">+2</span></td>
-                            <td class="num"><span class="pts-val">46</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="standings-note">&#9873; Arsenal 9 pts clear at top &middot; Top-4 CL race: Man Utd, Aston Villa, Liverpool, Chelsea all in contention &middot; Source: Global Sports Archive / Premier League</div>
-            </div>
+  <!-- TICKER -->
+  <div class="ticker-wrap">
+    <div class="ticker-label">&#9889; LIVE ODDS</div>
+    <div style="overflow:hidden;flex:1">
+      <div class="ticker-track" id="ticker-track">
+        <span class="ticker-item"><span class="t-name">Loading Polymarket odds...</span></span>
+        <span class="ticker-item"><span class="t-name">Loading Polymarket odds...</span></span>
+      </div>
+    </div>
+  </div>
 
-            <!-- MATCH PREDICTIONS MW32 -->
-            <!-- Confirmed MW32 fixtures from NBC Sports / ESPN: West Ham vs Wolves (Fri Apr 10), Arsenal vs Bournemouth, Brentford vs Everton, Burnley vs Brighton, Liverpool vs Fulham (Sat Apr 11), Man Utd vs Leeds, Crystal Palace vs Newcastle, Nott'm Forest vs Aston Villa, Sunderland vs Tottenham (Sat Apr 11), Chelsea vs Man City (Sat Apr 11) -->
-            <div class="cards-grid">
+  <!-- POLYMARKET ODDS -->
+  <div id="s-odds">
+    <div class="sec-head">
+      <div class="sec-icon">&#128200;</div>
+      <div>
+        <div class="sec-title">Polymarket Live Odds</div>
+        <div class="sec-sub">Real-time prediction market prices &nbsp;&bull;&nbsp; gamma-api.polymarket.com</div>
+      </div>
+    </div>
+    <div class="odds-grid" id="odds-container">
+      <div class="odds-card oc-skeleton" style="height:140px"></div>
+      <div class="odds-card oc-skeleton" style="height:140px"></div>
+      <div class="odds-card oc-skeleton" style="height:140px"></div>
+      <div class="odds-card oc-skeleton" style="height:140px"></div>
+    </div>
+  </div>
 
-                <div class="match-card">
-                    <div class="match-time">&#128197; Fri 10 Apr &middot; 20:00 UK &middot; 12:00 PDT &middot; Polymarket: West Ham 54%</div>
-                    <div class="match-teams">
-                        <div class="team"><div class="team-label">West Ham United</div></div>
-                        <div class="score-box">
-                            <div class="score-nums">2-1</div>
-                            <div class="score-label">predicted</div>
-                        </div>
-                        <div class="team"><div class="team-label">Wolverhampton</div></div>
-                    </div>
-                    <div class="match-verdict">
-                        <span class="verdict-text">West Ham win</span>
-                        <div class="confidence-bar">
-                            <div class="conf-track"><div class="conf-fill" style="width:58%"></div></div>
-                            <span class="conf-pct">58%</span>
-                        </div>
-                    </div>
-                </div>
+  <!-- LIVE SCORES -->
+  <div id="s-scores">
+    <div class="sec-head">
+      <div class="sec-icon">&#127947;</div>
+      <div>
+        <div class="sec-title">Live &amp; Recent Scores</div>
+        <div class="sec-sub" id="scores-sub">Fetching live scores...</div>
+      </div>
+    </div>
+    <div class="scores-grid" id="scores-container">
+      <div class="score-card oc-skeleton" style="height:100px"></div>
+      <div class="score-card oc-skeleton" style="height:100px"></div>
+      <div class="score-card oc-skeleton" style="height:100px"></div>
+    </div>
+  </div>
 
-                <div class="match-card">
-                    <div class="match-time">&#128197; Sat 11 Apr &middot; 12:30 UK &middot; 04:30 PDT &middot; Home form: Arsenal dominant</div>
-                    <div class="match-teams">
-                        <div class="team"><div class="team-label">Arsenal</div></div>
-                        <div class="score-box">
-                            <div class="score-nums">3-0</div>
-                            <div class="score-label">predicted</div>
-                        </div>
-                        <div class="team"><div class="team-label">AFC Bournemouth</div></div>
-                    </div>
-                    <div class="match-verdict">
-                        <span class="verdict-text">Arsenal win</span>
-                        <div class="confidence-bar">
-                            <div class="conf-track"><div class="conf-fill" style="width:92%"></div></div>
-                            <span class="conf-pct">92%</span>
-                        </div>
-                    </div>
-                </div>
+  <!-- BREAKING NEWS -->
+  <div id="s-news">
+    <div class="sec-head">
+      <div class="sec-icon">&#128240;</div>
+      <div>
+        <div class="sec-title">Breaking Football News</div>
+        <div class="sec-sub">Latest headlines via BBC Sport RSS &nbsp;&bull;&nbsp; Updated on refresh</div>
+      </div>
+    </div>
+    <div class="news-grid" id="news-container">
+      <div class="news-card oc-skeleton" style="height:120px"></div>
+      <div class="news-card oc-skeleton" style="height:120px"></div>
+      <div class="news-card oc-skeleton" style="height:120px"></div>
+    </div>
+  </div>
 
-                <div class="match-card">
-                    <div class="match-time">&#128197; Sat 11 Apr &middot; 15:00 UK &middot; 07:00 PDT &middot; Brentford strong at home</div>
-                    <div class="match-teams">
-                        <div class="team"><div class="team-label">Brentford</div></div>
-                        <div class="score-box">
-                            <div class="score-nums">2-1</div>
-                            <div class="score-label">predicted</div>
-                        </div>
-                        <div class="team"><div class="team-label">Everton</div></div>
-                    </div>
-                    <div class="match-verdict">
-                        <span class="verdict-text">Brentford win</span>
-                        <div class="confidence-bar">
-                            <div class="conf-track"><div class="conf-fill" style="width:62%"></div></div>
-                            <span class="conf-pct">62%</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="match-card">
-                    <div class="match-time">&#128197; Sat 11 Apr &middot; 15:00 UK &middot; 07:00 PDT &middot; Burnley struggling at home</div>
-                    <div class="match-teams">
-                        <div class="team"><div class="team-label">Burnley</div></div>
-                        <div class="score-box">
-                            <div class="score-nums">1-2</div>
-                            <div class="score-label">predicted</div>
-                        </div>
-                        <div class="team"><div class="team-label">Brighton</div></div>
-                    </div>
-                    <div class="match-verdict">
-                        <span class="verdict-text">Brighton win</span>
-                        <div class="confidence-bar">
-                            <div class="conf-track"><div class="conf-fill" style="width:65%"></div></div>
-                            <span class="conf-pct">65%</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="match-card">
-                    <div class="match-time">&#128197; Sat 11 Apr &middot; 17:30 UK &middot; 09:30 PDT &middot; Liverpool coming off UCL midweek</div>
-                    <div class="match-teams">
-                        <div class="team"><div class="team-label">Liverpool</div></div>
-                        <div class="score-box">
-                            <div class="score-nums">3-1</div>
-                            <div class="score-label">predicted</div>
-                        </div>
-                        <div class="team"><div class="team-label">Fulham</div></div>
-                    </div>
-                    <div class="match-verdict">
-                        <span class="verdict-text">Liverpool win</span>
-                        <div class="confidence-bar">
-                            <div class="conf-track"><div class="conf-fill" style="width:78%"></div></div>
-                            <span class="conf-pct">78%</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="match-card">
-                    <div class="match-time">&#128197; Sat 11 Apr &middot; 15:00 UK &middot; 07:00 PDT &middot; Man Utd chasing top 4</div>
-                    <div class="match-teams">
-                        <div class="team"><div class="team-label">Manchester United</div></div>
-                        <div class="score-box">
-                            <div class="score-nums">2-0</div>
-                            <div class="score-label">predicted</div>
-                        </div>
-                        <div class="team"><div class="team-label">Leeds United</div></div>
-                    </div>
-                    <div class="match-verdict">
-                        <span class="verdict-text">Man Utd win</span>
-                        <div class="confidence-bar">
-                            <div class="conf-track"><div class="conf-fill" style="width:68%"></div></div>
-                            <span class="conf-pct">68%</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="match-card">
-                    <div class="match-time">&#128197; Sat 11 Apr &middot; 15:00 UK &middot; 07:00 PDT &middot; City post-UCL midweek</div>
-                    <div class="match-teams">
-                        <div class="team"><div class="team-label">Chelsea</div></div>
-                        <div class="score-box">
-                            <div class="score-nums">1-2</div>
-                            <div class="score-label">predicted</div>
-                        </div>
-                        <div class="team"><div class="team-label">Manchester City</div></div>
-                    </div>
-                    <div class="match-verdict">
-                        <span class="verdict-text">Man City win</span>
-                        <div class="confidence-bar">
-                            <div class="conf-track"><div class="conf-fill" style="width:55%"></div></div>
-                            <span class="conf-pct">55%</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="match-card">
-                    <div class="match-time">&#128197; Sat 11 Apr &middot; 15:00 UK &middot; 07:00 PDT &middot; Newcastle pushing for top 4</div>
-                    <div class="match-teams">
-                        <div class="team"><div class="team-label">Crystal Palace</div></div>
-                        <div class="score-box">
-                            <div class="score-nums">1-2</div>
-                            <div class="score-label">predicted</div>
-                        </div>
-                        <div class="team"><div class="team-label">Newcastle United</div></div>
-                    </div>
-                    <div class="match-verdict">
-                        <span class="verdict-text">Newcastle win</span>
-                        <div class="confidence-bar">
-                            <div class="conf-track"><div class="conf-fill" style="width:55%"></div></div>
-                            <span class="conf-pct">55%</span>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
+  <!-- PREDICTIONS + STANDINGS -->
+  <div id="s-preds">
+    <div class="sec-head">
+      <div class="sec-icon">&#127919;</div>
+      <div>
+        <div class="sec-title">Papillon Banco Predictions</div>
+        <div class="sec-sub">EPL MW32 &nbsp;&bull;&nbsp; UCL Quarter-Finals &nbsp;&bull;&nbsp; All times PDT (Portland, OR)</div>
+      </div>
     </div>
 
-    <div class="divider-line"></div>
-
-    <!-- ===== UCL SECTION ===== -->
-    <div id="ucl" class="section-alt">
-        <div class="section">
-            <div class="section-header">
-                <div class="section-icon">&#11088;</div>
-                <div>
-                    <div class="section-title">UEFA Champions League - Quarter-Finals</div>
-                    <div class="section-sub">1st Legs: April 7-8, 2026 &middot; 2nd Legs: April 14-15 &middot; Final: May 30 &middot; Budapest</div>
-                </div>
-            </div>
-
-            <!-- CONFIRMED FIXTURES FROM UEFA -->
-            <!-- Tue Apr 7: Real Madrid vs Bayern, Sporting CP vs Arsenal -->
-            <!-- Wed Apr 8: Barcelona vs Atl&#233;tico, PSG vs Liverpool -->
-            <div class="standings-block">
-                <div class="block-title"><i class="fa-solid fa-sitemap"></i> Confirmed QF Draw (UEFA, March 18, 2026)</div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>1st Leg</th>
-                            <th>2nd Leg</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:var(--muted)">Tue 7 Apr</td>
-                            <td><span class="team-name">Real Madrid vs Bayern M&#252;nchen</span></td>
-                            <td style="font-size:0.8rem;color:var(--muted)">Wed 15 Apr (Munich)</td>
-                        </tr>
-                        <tr>
-                            <td style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:var(--muted)">Tue 7 Apr</td>
-                            <td><span class="team-name">Sporting CP vs Arsenal</span></td>
-                            <td style="font-size:0.8rem;color:var(--muted)">Wed 15 Apr (London)</td>
-                        </tr>
-                        <tr>
-                            <td style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:var(--muted)">Wed 8 Apr</td>
-                            <td><span class="team-name">Barcelona vs Atl&#233;tico de Madrid</span></td>
-                            <td style="font-size:0.8rem;color:var(--muted)">Tue 14 Apr (Madrid)</td>
-                        </tr>
-                        <tr>
-                            <td style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:var(--muted)">Wed 8 Apr</td>
-                            <td><span class="team-name" style="color:var(--green)">Paris Saint-Germain vs Liverpool</span></td>
-                            <td style="font-size:0.8rem;color:var(--muted)">Tue 14 Apr (Anfield)</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="standings-note">&#9873; All kick-offs 21:00 CET (15:00 PDT) &middot; Source: UEFA.com, March 18, 2026</div>
-            </div>
-
-            <div class="cards-grid cards-grid-2">
-
-                <div class="match-card">
-                    <div class="match-time">&#128197; Tue 7 Apr &middot; 21:00 CET &middot; 15:00 PDT - Sporting CP home 1st leg</div>
-                    <div class="match-teams">
-                        <div class="team"><div class="team-label">Sporting CP</div></div>
-                        <div class="score-box">
-                            <div class="score-nums">1-3</div>
-                            <div class="score-label">predicted</div>
-                        </div>
-                        <div class="team"><div class="team-label">Arsenal</div></div>
-                    </div>
-                    <div class="match-verdict">
-                        <span class="verdict-text">Arsenal win in Lisbon</span>
-                        <div class="confidence-bar">
-                            <div class="conf-track"><div class="conf-fill" style="width:78%"></div></div>
-                            <span class="conf-pct">78%</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="match-card">
-                    <div class="match-time">&#128197; Tue 7 Apr &middot; 21:00 CET &middot; 15:00 PDT - Madrid home, Bayern in form</div>
-                    <div class="match-teams">
-                        <div class="team"><div class="team-label">Real Madrid</div></div>
-                        <div class="score-box">
-                            <div class="score-nums">2-2</div>
-                            <div class="score-label">predicted</div>
-                        </div>
-                        <div class="team"><div class="team-label">Bayern M&#252;nchen</div></div>
-                    </div>
-                    <div class="match-verdict">
-                        <span class="verdict-text">Draw &middot; High-scoring classic</span>
-                        <div class="confidence-bar">
-                            <div class="conf-track"><div class="conf-fill" style="width:48%"></div></div>
-                            <span class="conf-pct">48%</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="match-card">
-                    <div class="match-time">&#128197; Wed 8 Apr &middot; 21:00 CET &middot; 15:00 PDT - El Cl&#225;sico rivalry reloaded</div>
-                    <div class="match-teams">
-                        <div class="team"><div class="team-label">Barcelona</div></div>
-                        <div class="score-box">
-                            <div class="score-nums">2-1</div>
-                            <div class="score-label">predicted</div>
-                        </div>
-                        <div class="team"><div class="team-label">Atl&#233;tico Madrid</div></div>
-                    </div>
-                    <div class="match-verdict">
-                        <span class="verdict-text">Barcelona win</span>
-                        <div class="confidence-bar">
-                            <div class="conf-track"><div class="conf-fill" style="width:64%"></div></div>
-                            <span class="conf-pct">64%</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="match-card">
-                    <div class="match-time">&#128197; Wed 8 Apr &middot; 21:00 CET &middot; 15:00 PDT - Parc des Princes, PSG hosts</div>
-                    <div class="match-teams">
-                        <div class="team"><div class="team-label">Paris Saint-Germain</div></div>
-                        <div class="score-box">
-                            <div class="score-nums">2-2</div>
-                            <div class="score-label">predicted</div>
-                        </div>
-                        <div class="team"><div class="team-label">Liverpool</div></div>
-                    </div>
-                    <div class="match-verdict">
-                        <span class="verdict-text">Draw &middot; Enthralling 4-goal night</span>
-                        <div class="confidence-bar">
-                            <div class="conf-track"><div class="conf-fill" style="width:45%"></div></div>
-                            <span class="conf-pct">45%</span>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
+    <!-- EPL STANDINGS — SWIPEABLE CARDS -->
+    <div class="table-wrap" style="padding:20px 22px">
+      <div class="table-title"><i class="fa-solid fa-trophy"></i> EPL Standings 2025/26 &mdash; Swipe to see all 20 teams</div>
+      <div class="standings-outer">
+        <div class="standings-scroll-wrap" id="st-scroll">
+          <div class="standings-cards-track" id="st-track">
+            <!-- Rendered by JS -->
+          </div>
         </div>
+        <div class="st-dots" id="st-dots"></div>
+      </div>
+      <div class="note">&#9673; Green = UCL (top 4) &nbsp;&bull;&nbsp; Blue = UEL (5th) &nbsp;&bull;&nbsp; Red = Relegation zone (18–20) &nbsp;&bull;&nbsp; Swipe or drag to scroll all 20 teams</div>
     </div>
 
-    <div class="divider-line"></div>
-
-    <!-- ===== WORLD CUP SECTION ===== -->
-    <div id="wc">
-        <div class="section">
-            <div class="section-header">
-                <div class="section-icon">&#127757;</div>
-                <div>
-                    <div class="section-title">FIFA World Cup 2026 - Selected Opening Fixtures</div>
-                    <div class="section-sub">Hosts: USA, Canada, Mexico &middot; Starts June 11, 2026 &middot; Papillon Banco predictions</div>
-                </div>
-            </div>
-
-            <div class="cards-grid cards-grid-2">
-
-                <div class="match-card">
-                    <div class="match-time">&#128197; Thu 11 Jun 2026 &middot; 19:00 local (Mexico City) &middot; Opening match</div>
-                    <div class="match-teams">
-                        <div class="team"><div class="team-label">Mexico &#127474;&#127485;</div></div>
-                        <div class="score-box">
-                            <div class="score-nums">2-0</div>
-                            <div class="score-label">predicted</div>
-                        </div>
-                        <div class="team"><div class="team-label">South Africa &#127487;&#127462;</div></div>
-                    </div>
-                    <div class="match-verdict">
-                        <span class="verdict-text">Mexico win &middot; Host nation energy</span>
-                        <div class="confidence-bar">
-                            <div class="conf-track"><div class="conf-fill" style="width:72%"></div></div>
-                            <span class="conf-pct">72%</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="match-card">
-                    <div class="match-time">&#128197; Thu 11 Jun 2026 &middot; 22:00 local &middot; Group stage clash</div>
-                    <div class="match-teams">
-                        <div class="team"><div class="team-label">South Korea &#127472;&#127479;</div></div>
-                        <div class="score-box">
-                            <div class="score-nums">1-1</div>
-                            <div class="score-label">predicted</div>
-                        </div>
-                        <div class="team"><div class="team-label">Czechia &#127464;&#127487;</div></div>
-                    </div>
-                    <div class="match-verdict">
-                        <span class="verdict-text">Draw &middot; Evenly matched</span>
-                        <div class="confidence-bar">
-                            <div class="conf-track"><div class="conf-fill" style="width:45%"></div></div>
-                            <span class="conf-pct">45%</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="match-card">
-                    <div class="match-time">&#128197; Fri 12 Jun 2026 &middot; 15:00 local (Toronto) &middot; Canada's 1st WC home match</div>
-                    <div class="match-teams">
-                        <div class="team"><div class="team-label">Canada &#127464;&#127462;</div></div>
-                        <div class="score-box">
-                            <div class="score-nums">2-1</div>
-                            <div class="score-label">predicted</div>
-                        </div>
-                        <div class="team"><div class="team-label">Bosnia & Herz. &#127463;&#127462;</div></div>
-                    </div>
-                    <div class="match-verdict">
-                        <span class="verdict-text">Canada win &middot; Home crowd boost</span>
-                        <div class="confidence-bar">
-                            <div class="conf-track"><div class="conf-fill" style="width:62%"></div></div>
-                            <span class="conf-pct">62%</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="match-card">
-                    <div class="match-time">&#128197; Fri 12 Jun 2026 &middot; 21:00 local (Los Angeles) &middot; USA opens at home</div>
-                    <div class="match-teams">
-                        <div class="team"><div class="team-label">USA &#127482;&#127480;</div></div>
-                        <div class="score-box">
-                            <div class="score-nums">3-1</div>
-                            <div class="score-label">predicted</div>
-                        </div>
-                        <div class="team"><div class="team-label">Paraguay &#127477;&#127486;</div></div>
-                    </div>
-                    <div class="match-verdict">
-                        <span class="verdict-text">USA win &middot; Massive home crowd</span>
-                        <div class="confidence-bar">
-                            <div class="conf-track"><div class="conf-fill" style="width:75%"></div></div>
-                            <span class="conf-pct">75%</span>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
+    <!-- EPL MATCH PREDICTIONS -->
+    <div class="wc-group-title">&#9917; EPL Matchweek 32 Predictions</div>
+    <div class="pred-grid">
+      <div class="pred-card">
+        <div class="pc-time">&#128197; Fri 10 Apr &bull; 20:00 UK &bull; 12:00 PDT</div>
+        <div class="pc-teams">
+          <div class="pc-team"><div class="pc-team-name">West Ham</div></div>
+          <div class="pc-score"><div class="pc-score-num">2&ndash;1</div><div class="pc-score-lbl">predicted</div></div>
+          <div class="pc-team"><div class="pc-team-name">Wolves</div></div>
         </div>
+        <div class="pc-footer">
+          <span class="pc-verdict">West Ham win</span>
+          <div class="conf-row"><div class="conf-bar"><div class="conf-fill" style="width:58%"></div></div><span class="conf-pct">58%</span></div>
+        </div>
+      </div>
+      <div class="pred-card">
+        <div class="pc-time">&#128197; Sat 11 Apr &bull; 12:30 UK &bull; 04:30 PDT</div>
+        <div class="pc-teams">
+          <div class="pc-team"><div class="pc-team-name">Arsenal</div></div>
+          <div class="pc-score"><div class="pc-score-num">3&ndash;0</div><div class="pc-score-lbl">predicted</div></div>
+          <div class="pc-team"><div class="pc-team-name">Bournemouth</div></div>
+        </div>
+        <div class="pc-footer">
+          <span class="pc-verdict">Arsenal win</span>
+          <div class="conf-row"><div class="conf-bar"><div class="conf-fill" style="width:92%"></div></div><span class="conf-pct">92%</span></div>
+        </div>
+      </div>
+      <div class="pred-card">
+        <div class="pc-time">&#128197; Sat 11 Apr &bull; 15:00 UK &bull; 07:00 PDT</div>
+        <div class="pc-teams">
+          <div class="pc-team"><div class="pc-team-name">Brentford</div></div>
+          <div class="pc-score"><div class="pc-score-num">2&ndash;1</div><div class="pc-score-lbl">predicted</div></div>
+          <div class="pc-team"><div class="pc-team-name">Everton</div></div>
+        </div>
+        <div class="pc-footer">
+          <span class="pc-verdict">Brentford win</span>
+          <div class="conf-row"><div class="conf-bar"><div class="conf-fill" style="width:62%"></div></div><span class="conf-pct">62%</span></div>
+        </div>
+      </div>
+      <div class="pred-card">
+        <div class="pc-time">&#128197; Sat 11 Apr &bull; 15:00 UK &bull; 07:00 PDT</div>
+        <div class="pc-teams">
+          <div class="pc-team"><div class="pc-team-name">Burnley</div></div>
+          <div class="pc-score"><div class="pc-score-num">1&ndash;2</div><div class="pc-score-lbl">predicted</div></div>
+          <div class="pc-team"><div class="pc-team-name">Brighton</div></div>
+        </div>
+        <div class="pc-footer">
+          <span class="pc-verdict">Brighton win</span>
+          <div class="conf-row"><div class="conf-bar"><div class="conf-fill" style="width:65%"></div></div><span class="conf-pct">65%</span></div>
+        </div>
+      </div>
+      <div class="pred-card">
+        <div class="pc-time">&#128197; Sat 11 Apr &bull; 17:30 UK &bull; 09:30 PDT</div>
+        <div class="pc-teams">
+          <div class="pc-team"><div class="pc-team-name">Liverpool</div></div>
+          <div class="pc-score"><div class="pc-score-num">3&ndash;1</div><div class="pc-score-lbl">predicted</div></div>
+          <div class="pc-team"><div class="pc-team-name">Fulham</div></div>
+        </div>
+        <div class="pc-footer">
+          <span class="pc-verdict">Liverpool win</span>
+          <div class="conf-row"><div class="conf-bar"><div class="conf-fill" style="width:78%"></div></div><span class="conf-pct">78%</span></div>
+        </div>
+      </div>
+      <div class="pred-card">
+        <div class="pc-time">&#128197; Sat 11 Apr &bull; 15:00 UK &bull; 07:00 PDT</div>
+        <div class="pc-teams">
+          <div class="pc-team"><div class="pc-team-name">Chelsea</div></div>
+          <div class="pc-score"><div class="pc-score-num">1&ndash;2</div><div class="pc-score-lbl">predicted</div></div>
+          <div class="pc-team"><div class="pc-team-name">Man City</div></div>
+        </div>
+        <div class="pc-footer">
+          <span class="pc-verdict">Man City win</span>
+          <div class="conf-row"><div class="conf-bar"><div class="conf-fill" style="width:55%"></div></div><span class="conf-pct">55%</span></div>
+        </div>
+      </div>
     </div>
 
-    <!-- ===== FOOTER ===== -->
-    <footer>
-        <div class="footer">
-            <div class="footer-left">
-                Predictions by Papillon Banco (@papillonbanco90) &middot; For entertainment &amp; analysis purposes only<br>
-                Betting markets shown are Polymarket prediction market prices as of April 1, 2026<br>
-                Standings: Global Sports Archive / Premier League (as of March 22, 2026) &middot; UCL fixtures: UEFA.com
-            </div>
-            <div class="footer-right">
-                Updated by Claude (Anthropic)<br>
-                April 1, 2026 &middot; 20:15 PDT
-            </div>
+    <!-- UCL QF PREDICTIONS -->
+    <div class="wc-group-title">&#11088; UCL Quarter-Finals Predictions</div>
+    <div class="pred-grid">
+      <div class="pred-card" style="border-color:rgba(234,179,8,.12)">
+        <div class="pc-time">&#11088; UCL QF Leg 1 &bull; Tue 7 Apr &bull; 21:00 CET &bull; 13:00 PDT</div>
+        <div class="pc-teams">
+          <div class="pc-team"><div class="pc-team-name">Sporting CP</div></div>
+          <div class="pc-score" style="border-color:rgba(234,179,8,.25)"><div class="pc-score-num" style="color:#fbbf24">1&ndash;3</div><div class="pc-score-lbl">predicted</div></div>
+          <div class="pc-team"><div class="pc-team-name">Arsenal</div></div>
         </div>
-    </footer>
+        <div class="pc-footer">
+          <span class="pc-verdict" style="color:#fbbf24">Arsenal win away</span>
+          <div class="conf-row"><div class="conf-bar"><div class="conf-fill" style="width:78%;background:#fbbf24"></div></div><span class="conf-pct">78%</span></div>
+        </div>
+      </div>
+      <div class="pred-card" style="border-color:rgba(234,179,8,.12)">
+        <div class="pc-time">&#11088; UCL QF Leg 1 &bull; Tue 7 Apr &bull; 21:00 CET &bull; 13:00 PDT</div>
+        <div class="pc-teams">
+          <div class="pc-team"><div class="pc-team-name">Real Madrid</div></div>
+          <div class="pc-score" style="border-color:rgba(234,179,8,.25)"><div class="pc-score-num" style="color:#fbbf24">2&ndash;2</div><div class="pc-score-lbl">predicted</div></div>
+          <div class="pc-team"><div class="pc-team-name">Bayern</div></div>
+        </div>
+        <div class="pc-footer">
+          <span class="pc-verdict" style="color:#fbbf24">Draw &bull; Classic expected</span>
+          <div class="conf-row"><div class="conf-bar"><div class="conf-fill" style="width:48%;background:#fbbf24"></div></div><span class="conf-pct">48%</span></div>
+        </div>
+      </div>
+      <div class="pred-card" style="border-color:rgba(234,179,8,.12)">
+        <div class="pc-time">&#11088; UCL QF Leg 1 &bull; Wed 8 Apr &bull; 21:00 CET &bull; 13:00 PDT</div>
+        <div class="pc-teams">
+          <div class="pc-team"><div class="pc-team-name">Barcelona</div></div>
+          <div class="pc-score" style="border-color:rgba(234,179,8,.25)"><div class="pc-score-num" style="color:#fbbf24">2&ndash;1</div><div class="pc-score-lbl">predicted</div></div>
+          <div class="pc-team"><div class="pc-team-name">Atletico</div></div>
+        </div>
+        <div class="pc-footer">
+          <span class="pc-verdict" style="color:#fbbf24">Barca win</span>
+          <div class="conf-row"><div class="conf-bar"><div class="conf-fill" style="width:64%;background:#fbbf24"></div></div><span class="conf-pct">64%</span></div>
+        </div>
+      </div>
+      <div class="pred-card" style="border-color:rgba(234,179,8,.12)">
+        <div class="pc-time">&#11088; UCL QF Leg 1 &bull; Wed 8 Apr &bull; 21:00 CET &bull; 13:00 PDT</div>
+        <div class="pc-teams">
+          <div class="pc-team"><div class="pc-team-name">PSG</div></div>
+          <div class="pc-score" style="border-color:rgba(234,179,8,.25)"><div class="pc-score-num" style="color:#fbbf24">2&ndash;2</div><div class="pc-score-lbl">predicted</div></div>
+          <div class="pc-team"><div class="pc-team-name">Liverpool</div></div>
+        </div>
+        <div class="pc-footer">
+          <span class="pc-verdict" style="color:#fbbf24">Draw &bull; 4-goal thriller</span>
+          <div class="conf-row"><div class="conf-bar"><div class="conf-fill" style="width:45%;background:#fbbf24"></div></div><span class="conf-pct">45%</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
 
+  <!-- ============================================
+       WORLD CUP 2026 PREDICTIONS
+       ============================================ -->
+  <div id="s-wc">
+    <div class="sec-head">
+      <div class="sec-icon">&#127942;</div>
+      <div>
+        <div class="sec-title">World Cup 2026 Predictions</div>
+        <div class="sec-sub">USA / Canada / Mexico &nbsp;&bull;&nbsp; Jun 11 – Jul 19, 2026 &nbsp;&bull;&nbsp; 48 Teams &nbsp;&bull;&nbsp; 104 Matches</div>
+      </div>
+    </div>
+
+    <!-- WC Banner -->
+    <div class="wc-banner">
+      <div class="wc-flag">&#127942;</div>
+      <div class="wc-info">
+        <div class="wc-title">FIFA World Cup 2026 &mdash; Group Stage Opens June 11</div>
+        <div class="wc-sub">Mexico City kicks off vs South Africa &bull; All PDT times (Portland, OR)</div>
+        <div class="wc-countdown">Countdown: <span id="wc-days">--</span> days &bull; Opens June 11, 2026 at Estadio Azteca</div>
+      </div>
+      <div class="wc-favs">
+        <div class="wc-fav">
+          <div class="wc-fav-team">&#127466;&#127480; Spain</div>
+          <div class="wc-fav-odds">+450</div>
+          <div class="wc-fav-label">Fav #1</div>
+        </div>
+        <div class="wc-fav">
+          <div class="wc-fav-team">&#127462;&#127479; Argentina</div>
+          <div class="wc-fav-odds">+500</div>
+          <div class="wc-fav-label">Defending</div>
+        </div>
+        <div class="wc-fav">
+          <div class="wc-fav-team">&#127467;&#127479; France</div>
+          <div class="wc-fav-odds">+750</div>
+          <div class="wc-fav-label">Fav #3</div>
+        </div>
+        <div class="wc-fav">
+          <div class="wc-fav-team">&#127463;&#127479; Brazil</div>
+          <div class="wc-fav-odds">+750</div>
+          <div class="wc-fav-label">Fav #4</div>
+        </div>
+        <div class="wc-fav">
+          <div class="wc-fav-team">&#127468;&#127463; England</div>
+          <div class="wc-fav-odds">+550</div>
+          <div class="wc-fav-label">Fav #2</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Group Stage Picks -->
+    <div class="wc-group-title">&#127462; Group A &mdash; Mexico / South Africa / South Korea / Czechia</div>
+    <div class="pred-grid">
+      <div class="pred-card wc-card">
+        <div class="pc-time">&#128197; Thu Jun 11 &bull; 15:00 ET &bull; 12:00 PDT &bull; Estadio Azteca, Mexico City</div>
+        <div class="pc-teams">
+          <div class="pc-team"><div class="pc-team-name">Mexico 🇲🇽</div></div>
+          <div class="pc-score"><div class="pc-score-num">2&ndash;0</div><div class="pc-score-lbl">predicted</div></div>
+          <div class="pc-team"><div class="pc-team-name">South Africa 🇿🇦</div></div>
+        </div>
+        <div class="pc-footer">
+          <span class="pc-verdict">Mexico win (opener)</span>
+          <div class="conf-row"><div class="conf-bar"><div class="conf-fill" style="width:72%"></div></div><span class="conf-pct">72%</span></div>
+        </div>
+      </div>
+      <div class="pred-card wc-card">
+        <div class="pc-time">&#128197; Thu Jun 11 &bull; 22:00 ET &bull; 19:00 PDT &bull; Estadio Akron, Guadalajara</div>
+        <div class="pc-teams">
+          <div class="pc-team"><div class="pc-team-name">South Korea 🇰🇷</div></div>
+          <div class="pc-score"><div class="pc-score-num">1&ndash;1</div><div class="pc-score-lbl">predicted</div></div>
+          <div class="pc-team"><div class="pc-team-name">Czechia 🇨🇿</div></div>
+        </div>
+        <div class="pc-footer">
+          <span class="pc-verdict">Draw &bull; Evenly matched</span>
+          <div class="conf-row"><div class="conf-bar"><div class="conf-fill" style="width:40%"></div></div><span class="conf-pct">40%</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="wc-group-title">&#127463; Group B &mdash; Canada / Switzerland / Qatar / Bosnia</div>
+    <div class="pred-grid">
+      <div class="pred-card wc-card">
+        <div class="pc-time">&#128197; Fri Jun 12 &bull; 15:00 ET &bull; 12:00 PDT &bull; BMO Field, Toronto</div>
+        <div class="pc-teams">
+          <div class="pc-team"><div class="pc-team-name">Canada 🇨🇦</div></div>
+          <div class="pc-score"><div class="pc-score-num">2&ndash;1</div><div class="pc-score-lbl">predicted</div></div>
+          <div class="pc-team"><div class="pc-team-name">Bosnia 🇧🇦</div></div>
+        </div>
+        <div class="pc-footer">
+          <span class="pc-verdict">Canada win (home crowd)</span>
+          <div class="conf-row"><div class="conf-bar"><div class="conf-fill" style="width:65%"></div></div><span class="conf-pct">65%</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="wc-group-title">&#127465; Group C &mdash; Brazil / Morocco / Haiti / Scotland</div>
+    <div class="pred-grid">
+      <div class="pred-card wc-card">
+        <div class="pc-time">&#128197; Sat Jun 13 &bull; 18:00 ET &bull; 15:00 PDT &bull; MetLife, New Jersey</div>
+        <div class="pc-teams">
+          <div class="pc-team"><div class="pc-team-name">Brazil 🇧🇷</div></div>
+          <div class="pc-score"><div class="pc-score-num">3&ndash;1</div><div class="pc-score-lbl">predicted</div></div>
+          <div class="pc-team"><div class="pc-team-name">Morocco 🇲🇦</div></div>
+        </div>
+        <div class="pc-footer">
+          <span class="pc-verdict">Brazil win &bull; Vinícius shines</span>
+          <div class="conf-row"><div class="conf-bar"><div class="conf-fill" style="width:68%"></div></div><span class="conf-pct">68%</span></div>
+        </div>
+      </div>
+      <div class="pred-card wc-card">
+        <div class="pc-time">&#128197; Sat Jun 13 &bull; 21:00 ET &bull; 18:00 PDT &bull; Gillette Stadium, Boston</div>
+        <div class="pc-teams">
+          <div class="pc-team"><div class="pc-team-name">Haiti 🇭🇹</div></div>
+          <div class="pc-score"><div class="pc-score-num">0&ndash;3</div><div class="pc-score-lbl">predicted</div></div>
+          <div class="pc-team"><div class="pc-team-name">Scotland 🏴󠁧󠁢󠁳󠁣󠁴󠁿</div></div>
+        </div>
+        <div class="pc-footer">
+          <span class="pc-verdict">Scotland dominant</span>
+          <div class="conf-row"><div class="conf-bar"><div class="conf-fill" style="width:76%"></div></div><span class="conf-pct">76%</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="wc-group-title">&#127466; Group D &mdash; USA / Paraguay / Australia / Türkiye</div>
+    <div class="pred-grid">
+      <div class="pred-card wc-card">
+        <div class="pc-time">&#128197; Fri Jun 12 &bull; 21:00 ET &bull; 18:00 PDT &bull; SoFi Stadium, LA</div>
+        <div class="pc-teams">
+          <div class="pc-team"><div class="pc-team-name">USMNT 🇺🇸</div></div>
+          <div class="pc-score"><div class="pc-score-num">2&ndash;0</div><div class="pc-score-lbl">predicted</div></div>
+          <div class="pc-team"><div class="pc-team-name">Paraguay 🇵🇾</div></div>
+        </div>
+        <div class="pc-footer">
+          <span class="pc-verdict">USA win (home opener)</span>
+          <div class="conf-row"><div class="conf-bar"><div class="conf-fill" style="width:71%"></div></div><span class="conf-pct">71%</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tournament Winner Prediction -->
+    <div class="wc-group-title">&#127942; Papillon Banco Tournament Winner Prediction</div>
+    <div class="pred-grid">
+      <div class="pred-card wc-card" style="border-color:rgba(251,191,36,.3);background:linear-gradient(135deg,#0f1a0a,#0f1419)">
+        <div class="pc-time">&#127942; Final &bull; Sun Jul 19 &bull; 20:00 ET &bull; 17:00 PDT &bull; MetLife, New Jersey</div>
+        <div class="pc-teams">
+          <div class="pc-team"><div class="pc-team-name">Spain 🇪🇸</div></div>
+          <div class="pc-score" style="border-color:rgba(251,191,36,.4)"><div class="pc-score-num" style="color:var(--gold)">2&ndash;1</div><div class="pc-score-lbl">predicted</div></div>
+          <div class="pc-team"><div class="pc-team-name">England 🏴󠁧󠁢󠁥󠁮󠁧󠁿</div></div>
+        </div>
+        <div class="pc-footer">
+          <span class="pc-verdict" style="color:var(--gold)">&#127942; Spain Lift Trophy</span>
+          <div class="conf-row"><div class="conf-bar"><div class="conf-fill" style="width:62%;background:var(--gold)"></div></div><span class="conf-pct">62%</span></div>
+        </div>
+      </div>
+      <div class="pred-card wc-card">
+        <div class="pc-time">&#127942; Semi-Final 1 &bull; Wed Jul 15 &bull; 17:00 PDT &bull; Arlington, TX</div>
+        <div class="pc-teams">
+          <div class="pc-team"><div class="pc-team-name">Spain 🇪🇸</div></div>
+          <div class="pc-score"><div class="pc-score-num">2&ndash;1</div><div class="pc-score-lbl">predicted</div></div>
+          <div class="pc-team"><div class="pc-team-name">France 🇫🇷</div></div>
+        </div>
+        <div class="pc-footer">
+          <span class="pc-verdict">Spain edge it</span>
+          <div class="conf-row"><div class="conf-bar"><div class="conf-fill" style="width:55%"></div></div><span class="conf-pct">55%</span></div>
+        </div>
+      </div>
+      <div class="pred-card wc-card">
+        <div class="pc-time">&#127942; Semi-Final 2 &bull; Thu Jul 16 &bull; 17:00 PDT &bull; Atlanta, GA</div>
+        <div class="pc-teams">
+          <div class="pc-team"><div class="pc-team-name">England 🏴󠁧󠁢󠁥󠁮󠁧󠁿</div></div>
+          <div class="pc-score"><div class="pc-score-num">1&ndash;0</div><div class="pc-score-lbl">predicted</div></div>
+          <div class="pc-team"><div class="pc-team-name">Argentina 🇦🇷</div></div>
+        </div>
+        <div class="pc-footer">
+          <span class="pc-verdict">England squeaker</span>
+          <div class="conf-row"><div class="conf-bar"><div class="conf-fill" style="width:51%"></div></div><span class="conf-pct">51%</span></div>
+        </div>
+      </div>
+      <div class="pred-card wc-card">
+        <div class="pc-time">&#129352; Top Scorer Prediction &bull; World Cup 2026</div>
+        <div class="pc-teams">
+          <div class="pc-team" style="text-align:left"><div class="pc-team-name">Vinícius Jr.</div><div style="font-size:.75rem;color:var(--muted);margin-top:4px">Brazil 🇧🇷</div></div>
+          <div class="pc-score" style="border-color:rgba(251,191,36,.2)"><div class="pc-score-num" style="color:var(--gold);font-size:1.1rem">7 Goals</div><div class="pc-score-lbl">predicted</div></div>
+          <div class="pc-team" style="text-align:right"><div class="pc-team-name">Golden Boot</div><div style="font-size:.75rem;color:var(--gold);margin-top:4px">Prediction</div></div>
+        </div>
+        <div class="pc-footer">
+          <span class="pc-verdict" style="color:var(--gold)">Vini Jr. goes off</span>
+          <div class="conf-row"><div class="conf-bar"><div class="conf-fill" style="width:44%;background:var(--gold)"></div></div><span class="conf-pct">44%</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /s-wc -->
+
+</div><!-- /main -->
+
+<footer>
+  <div class="ft-left">
+    Predictions by Papillon Banco (@papillonbanco90) &bull; For entertainment &amp; analysis only<br>
+    Polymarket odds: gamma-api.polymarket.com &bull; Scores: thesportsdb.com &bull; All times PDT (Portland, OR)
+  </div>
+  <div class="ft-right" id="footer-ts">
+    Updated by Claude (Anthropic)<br>April 2, 2026
+  </div>
+</footer>
+
+<script>
+// =============================================
+// CONFIG
+// =============================================
+const CONFIG = {
+  polymarket: 'https://gamma-api.polymarket.com',
+  sportsdb: 'https://www.thesportsdb.com/api/v1/json/3',
+  newsApiKey: 'YOUR_NEWSAPI_KEY_HERE',
+  refreshInterval: 60
+};
+
+// =============================================
+// WORLD CLOCKS (Portland-centric)
+// =============================================
+function updateClocks() {
+  const zones = [
+    { id: 'portland', tz: 'America/Los_Angeles' },
+    { id: 'ny',       tz: 'America/New_York' },
+    { id: 'lon',      tz: 'Europe/London' },
+    { id: 'mad',      tz: 'Europe/Madrid' },
+    { id: 'lis',      tz: 'Europe/Lisbon' },
+    { id: 'par',      tz: 'Europe/Paris' },
+  ];
+  const now = new Date();
+  zones.forEach(z => {
+    const timeStr = now.toLocaleTimeString('en-US', {
+      timeZone: z.tz,
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true
+    });
+    // Split time and AM/PM
+    const parts = timeStr.split(' ');
+    const time = parts[0];
+    const ampm = parts[1] || '';
+    const el = document.getElementById('tz-' + z.id);
+    const apEl = document.getElementById('tz-' + z.id + '-ap');
+    if (el) el.textContent = time;
+    if (apEl) apEl.textContent = ampm;
+  });
+}
+setInterval(updateClocks, 1000);
+updateClocks();
+
+// =============================================
+// WC COUNTDOWN
+// =============================================
+function updateWCCountdown() {
+  const wcDate = new Date('2026-06-11T15:00:00-07:00'); // 3pm ET = noon PDT
+  const now = new Date();
+  const days = Math.ceil((wcDate - now) / (1000 * 60 * 60 * 24));
+  const el = document.getElementById('wc-days');
+  if (el) el.textContent = days > 0 ? days : 0;
+}
+updateWCCountdown();
+
+// =============================================
+// EPL STANDINGS — SWIPEABLE CARDS
+// =============================================
+const EPL_STANDINGS = [
+  {pos:1,  team:'Arsenal',               p:31, w:21, d:7,  l:3,  gf:61, ga:22, gd:39,  pts:70},
+  {pos:2,  team:'Manchester City',        p:30, w:18, d:7,  l:5,  gf:60, ga:28, gd:32,  pts:61},
+  {pos:3,  team:'Manchester United',      p:31, w:15, d:10, l:6,  gf:56, ga:43, gd:13,  pts:55},
+  {pos:4,  team:'Aston Villa',            p:31, w:16, d:6,  l:9,  gf:42, ga:37, gd:5,   pts:54},
+  {pos:5,  team:'Liverpool',              p:31, w:14, d:7,  l:10, gf:50, ga:42, gd:8,   pts:49},
+  {pos:6,  team:'Chelsea',               p:31, w:13, d:9,  l:9,  gf:53, ga:38, gd:15,  pts:48},
+  {pos:7,  team:'Brentford',             p:31, w:13, d:7,  l:11, gf:46, ga:42, gd:4,   pts:46},
+  {pos:8,  team:'Everton',               p:31, w:13, d:7,  l:11, gf:37, ga:35, gd:2,   pts:46},
+  {pos:9,  team:'Fulham',                p:31, w:13, d:5,  l:13, gf:44, ga:40, gd:4,   pts:44},
+  {pos:10, team:'Brighton',              p:31, w:11, d:10, l:10, gf:47, ga:41, gd:6,   pts:43},
+  {pos:11, team:'Sunderland',            p:31, w:11, d:10, l:10, gf:38, ga:37, gd:1,   pts:43},
+  {pos:12, team:'Newcastle',             p:31, w:12, d:6,  l:13, gf:44, ga:45, gd:-1,  pts:42},
+  {pos:13, team:'Bournemouth',           p:31, w:9,  d:15, l:7,  gf:36, ga:34, gd:2,   pts:42},
+  {pos:14, team:'Crystal Palace',        p:30, w:10, d:9,  l:11, gf:37, ga:42, gd:-5,  pts:39},
+  {pos:15, team:'Leeds United',          p:31, w:7,  d:12, l:12, gf:33, ga:40, gd:-7,  pts:33},
+  {pos:16, team:'Nottm Forest',          p:31, w:8,  d:8,  l:15, gf:30, ga:46, gd:-16, pts:32},
+  {pos:17, team:'Tottenham',             p:31, w:7,  d:9,  l:15, gf:34, ga:51, gd:-17, pts:30},
+  {pos:18, team:'West Ham',              p:31, w:7,  d:8,  l:16, gf:32, ga:52, gd:-20, pts:29},
+  {pos:19, team:'Burnley',               p:31, w:4,  d:8,  l:19, gf:24, ga:58, gd:-34, pts:20},
+  {pos:20, team:'Wolves',                p:31, w:3,  d:8,  l:20, gf:22, ga:60, gd:-38, pts:17},
+];
+
+function getBadge(pos) {
+  if (pos <= 4) return '<span class="st-badge ucl-b">&#127942; UCL</span>';
+  if (pos === 5) return '<span class="st-badge uel-b">&#127970; UEL</span>';
+  if (pos >= 18) return '<span class="st-badge rel-b">&#9660; Relegation</span>';
+  return '';
+}
+
+function getCardClass(pos) {
+  if (pos === 1) return 'st-card ucl top1';
+  if (pos <= 4) return 'st-card ucl';
+  if (pos === 5) return 'st-card uel';
+  if (pos >= 18) return 'st-card relegation';
+  return 'st-card';
+}
+
+function getPosClass(pos) {
+  if (pos === 1) return 'st-pos p1';
+  if (pos <= 3) return 'st-pos p23';
+  return 'st-pos';
+}
+
+function gdClass(gd) {
+  if (gd > 0) return 'st-stat-val gd-p';
+  if (gd < 0) return 'st-stat-val gd-n';
+  return 'st-stat-val gd-z';
+}
+
+function renderStandingsCards() {
+  const track = document.getElementById('st-track');
+  const dotsEl = document.getElementById('st-dots');
+
+  track.innerHTML = EPL_STANDINGS.map(t => `
+    <div class="${getCardClass(t.pos)}" data-pos="${t.pos}">
+      <div class="st-card-head">
+        <div class="${getPosClass(t.pos)}">${t.pos}</div>
+        <div class="st-team">${t.team}</div>
+        <div style="text-align:right">
+          <div class="st-pts">${t.pts}</div>
+          <div class="st-pts-lbl">PTS</div>
+        </div>
+      </div>
+      <div class="st-stats">
+        <div class="st-stat"><div class="st-stat-val">${t.p}</div><div class="st-stat-lbl">P</div></div>
+        <div class="st-stat"><div class="st-stat-val">${t.w}</div><div class="st-stat-lbl">W</div></div>
+        <div class="st-stat"><div class="st-stat-val">${t.d}</div><div class="st-stat-lbl">D</div></div>
+        <div class="st-stat"><div class="st-stat-val">${t.l}</div><div class="st-stat-lbl">L</div></div>
+        <div class="st-stat"><div class="${gdClass(t.gd)}">${t.gd > 0 ? '+' : ''}${t.gd}</div><div class="st-stat-lbl">GD</div></div>
+        <div class="st-stat"><div class="st-stat-val">${t.gf}</div><div class="st-stat-lbl">GF</div></div>
+      </div>
+      ${getBadge(t.pos)}
+    </div>
+  `).join('');
+
+  // Dots — one per card (20 total, show every 2 for compact display)
+  dotsEl.innerHTML = EPL_STANDINGS.map((_, i) =>
+    `<div class="st-dot${i===0?' active':''}" onclick="scrollToCard(${i})" title="Team ${i+1}"></div>`
+  ).join('');
+
+  // Drag-to-scroll
+  initDragScroll();
+  // Dot update on scroll
+  const scrollEl = document.getElementById('st-scroll');
+  scrollEl.addEventListener('scroll', updateDots, {passive:true});
+}
+
+function scrollToCard(index) {
+  const scrollEl = document.getElementById('st-scroll');
+  const cards = scrollEl.querySelectorAll('.st-card');
+  if (cards[index]) {
+    cards[index].scrollIntoView({behavior:'smooth', block:'nearest', inline:'start'});
+  }
+}
+
+function updateDots() {
+  const scrollEl = document.getElementById('st-scroll');
+  const cards = scrollEl.querySelectorAll('.st-card');
+  const dots = document.querySelectorAll('.st-dot');
+  const scrollLeft = scrollEl.scrollLeft;
+  const containerWidth = scrollEl.offsetWidth;
+
+  let closestIdx = 0;
+  let minDist = Infinity;
+  cards.forEach((card, i) => {
+    const dist = Math.abs(card.offsetLeft - scrollLeft);
+    if (dist < minDist) { minDist = dist; closestIdx = i; }
+  });
+
+  dots.forEach((dot, i) => {
+    dot.classList.toggle('active', i === closestIdx);
+  });
+}
+
+function initDragScroll() {
+  const el = document.getElementById('st-scroll');
+  let isDown = false, startX, scrollLeft;
+
+  el.addEventListener('mousedown', e => {
+    isDown = true;
+    el.classList.add('dragging');
+    startX = e.pageX - el.offsetLeft;
+    scrollLeft = el.scrollLeft;
+  });
+  el.addEventListener('mouseleave', () => { isDown = false; el.classList.remove('dragging'); });
+  el.addEventListener('mouseup', () => { isDown = false; el.classList.remove('dragging'); });
+  el.addEventListener('mousemove', e => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - el.offsetLeft;
+    const walk = (x - startX) * 1.5;
+    el.scrollLeft = scrollLeft - walk;
+  });
+}
+
+renderStandingsCards();
+
+// =============================================
+// POLYMARKET ODDS
+// =============================================
+const POLY_MARKETS = [
+  { slug: 'english-premier-league-winner-2025-26', label: 'EPL Winner 2025/26' },
+  { slug: 'champions-league-winner-2025-26',       label: 'UCL Winner 2025/26' },
+  { slug: 'world-cup-2026-winner',                 label: 'World Cup 2026' },
+  { slug: 'epl-top-scorer-2025-26',                label: 'EPL Top Scorer' },
+];
+const MATCH_MARKETS = [
+  { slug: 'arsenal-vs-bournemouth-april-11-2026',    label: 'Arsenal vs Bournemouth' },
+  { slug: 'west-ham-vs-wolves-april-10-2026',        label: 'West Ham vs Wolves' },
+  { slug: 'sporting-cp-vs-arsenal-ucl-2026',         label: 'Sporting vs Arsenal (UCL)' },
+  { slug: 'psg-vs-liverpool-ucl-2026',               label: 'PSG vs Liverpool (UCL)' },
+];
+
+async function fetchPolymarketMarket(slug) {
+  try {
+    const r = await fetch(`${CONFIG.polymarket}/markets?slug=${encodeURIComponent(slug)}&limit=1`);
+    if (!r.ok) return null;
+    const data = await r.json();
+    return data && data.length > 0 ? data[0] : null;
+  } catch(e) { return null; }
+}
+
+function parseMarketOutcomes(market) {
+  if (!market) return [];
+  try {
+    const outcomes = JSON.parse(market.outcomes || '[]');
+    const prices = JSON.parse(market.outcomePrices || '[]');
+    return outcomes.map((o,i) => ({
+      outcome: o,
+      prob: Math.round(parseFloat(prices[i] || 0) * 100)
+    })).sort((a,b) => b.prob - a.prob);
+  } catch { return []; }
+}
+
+function formatVolume(v) {
+  if (!v) return '–';
+  const n = parseFloat(v);
+  if (n >= 1e6) return '$' + (n/1e6).toFixed(1) + 'M';
+  if (n >= 1e3) return '$' + (n/1e3).toFixed(0) + 'K';
+  return '$' + n.toFixed(0);
+}
+
+async function loadPolymarketOdds() {
+  const container = document.getElementById('odds-container');
+  const allSlugs = [...POLY_MARKETS, ...MATCH_MARKETS];
+  const results = await Promise.all(allSlugs.map(m => fetchPolymarketMarket(m.slug)));
+  let anySuccess = false;
+  let cards = [];
+
+  for (let i = 0; i < allSlugs.length; i++) {
+    const market = results[i];
+    const cfg = allSlugs[i];
+    if (market) anySuccess = true;
+    const outcomes = market ? parseMarketOutcomes(market) : [];
+    cards.push({ cfg, market, outcomes });
+  }
+
+  if (!anySuccess) {
+    container.innerHTML = renderStaticOdds();
+    updateTicker(getStaticTickerData());
+    return;
+  }
+
+  container.innerHTML = cards.map(({cfg, market, outcomes}) => {
+    if (!market) return `<div class="odds-card"><div class="oc-label">Polymarket</div><div class="oc-question">${cfg.label}</div><div class="oc-prob" style="font-size:1rem;color:var(--muted)">Market not found</div></div>`;
+    const top = outcomes[0] || {outcome:'–',prob:0};
+    const vol = formatVolume(market.volumeNum || market.volume);
+    return `<div class="odds-card">
+      <div class="oc-label">Polymarket &bull; ${cfg.label}</div>
+      <div class="oc-question">${market.question || cfg.label}</div>
+      <div class="oc-prob">${top.prob}%</div>
+      <div class="oc-outcome">${top.outcome}</div>
+      <div class="oc-bar"><div class="oc-fill" style="width:${top.prob}%"></div></div>
+      <div class="oc-footer"><div class="oc-vol">Vol: ${vol}</div><div class="oc-live-tag">LIVE</div></div>
+    </div>`;
+  }).join('');
+
+  const tickerData = cards.filter(c=>c.outcomes.length).map(c=>({name:c.cfg.label,outcome:c.outcomes[0]?.outcome||'–',prob:c.outcomes[0]?.prob||0}));
+  if (tickerData.length) updateTicker(tickerData);
+}
+
+function getStaticTickerData() {
+  return [
+    {name:'EPL Winner',outcome:'Arsenal',prob:89},
+    {name:'UCL Winner',outcome:'Arsenal',prob:27},
+    {name:'World Cup 2026',outcome:'Spain',prob:16},
+    {name:'EPL Top Scorer',outcome:'Haaland',prob:87},
+  ];
+}
+
+function renderStaticOdds() {
+  const items = [
+    {label:'EPL Winner 2025/26',question:'Who wins the Premier League 2025/26?',outcome:'Arsenal',prob:89,vol:'$171M'},
+    {label:'UCL Winner 2025/26',question:'Who wins the Champions League 2025/26?',outcome:'Arsenal',prob:27,vol:'$85M'},
+    {label:'World Cup 2026',question:'Who wins the 2026 FIFA World Cup?',outcome:'Spain',prob:16,vol:'$62M'},
+    {label:'EPL Top Scorer',question:'EPL Top Scorer 2025/26?',outcome:'Haaland',prob:87,vol:'$24M'},
+  ];
+  return items.map(it=>`<div class="odds-card">
+    <div class="oc-label">Polymarket &bull; ${it.label}</div>
+    <div class="oc-question">${it.question}</div>
+    <div class="oc-prob">${it.prob}%</div>
+    <div class="oc-outcome">${it.outcome}</div>
+    <div class="oc-bar"><div class="oc-fill" style="width:${it.prob}%"></div></div>
+    <div class="oc-footer"><div class="oc-vol">Vol: ${it.vol}</div><div class="oc-live-tag" style="opacity:.5">CACHED</div></div>
+  </div>`).join('') +
+  `<div class="fetch-error" style="grid-column:1/-1;padding:12px;text-align:left;border:1px dashed rgba(255,255,255,.08);border-radius:12px">
+    <i class="fa-solid fa-circle-info" style="font-size:1rem;margin-bottom:4px"></i>
+    Live Polymarket data blocked by CORS in local browser. Host this page on a server for live odds. Showing cached values above.
+  </div>`;
+}
+
+// =============================================
+// TICKER
+// =============================================
+function updateTicker(data) {
+  const items = [...data, ...data];
+  const html = items.map(d =>
+    `<span class="ticker-item">
+      <span class="t-name">${d.name}</span>
+      <span style="color:var(--border)">|</span>
+      <span class="t-val">${d.outcome} ${d.prob}%</span>
+    </span>`
+  ).join('');
+  document.getElementById('ticker-track').innerHTML = html;
+}
+
+// =============================================
+// LIVE SCORES
+// =============================================
+async function loadLiveScores() {
+  const container = document.getElementById('scores-container');
+  const sub = document.getElementById('scores-sub');
+  try {
+    const today = new Date().toISOString().split('T')[0];
+    const r = await fetch(`${CONFIG.sportsdb}/eventsday.php?d=${today}&l=English%20Premier%20League`);
+    if (!r.ok) throw new Error();
+    const data = await r.json();
+    const events = data.events || [];
+    if (events.length === 0) {
+      const r2 = await fetch(`${CONFIG.sportsdb}/eventsday.php?d=${today}&l=UEFA%20Champions%20League`);
+      const d2 = await r2.json();
+      const ucl = d2.events || [];
+      if (ucl.length === 0) { container.innerHTML = renderStaticScores(); sub.textContent = 'No matches today • Showing upcoming fixtures'; return; }
+      renderScores(ucl, container, 'UCL');
+      sub.textContent = `UEFA Champions League • ${ucl.length} matches today`;
+      return;
+    }
+    renderScores(events, container, 'EPL');
+    sub.textContent = `Premier League • ${events.length} matches today • Auto-updating`;
+  } catch(e) {
+    container.innerHTML = renderStaticScores();
+    sub.textContent = 'Upcoming fixtures (live data unavailable in local mode)';
+  }
+}
+
+function renderScores(events, container, comp) {
+  container.innerHTML = events.slice(0,9).map(e => {
+    const isFT = e.strStatus === 'Match Finished' || e.strStatus === 'FT';
+    const isLive = !isFT && e.intHomeScore !== null && e.intAwayScore !== null;
+    const score = (e.intHomeScore !== null && e.intAwayScore !== null) ? `${e.intHomeScore}&ndash;${e.intAwayScore}` : (e.strTime || 'TBC');
+    const statusClass = isLive ? 'sc-status-live' : (isFT ? 'sc-status-ft' : 'sc-status-ns');
+    const statusText = isLive ? `LIVE` : (isFT ? 'FT' : (e.strTime || 'NS'));
+    return `<div class="score-card ${isLive?'live-match':''}">
+      <div class="sc-meta">
+        <div class="sc-comp">${comp} • ${e.dateEvent||''}</div>
+        <div class="${statusClass}">${statusText}</div>
+      </div>
+      <div class="sc-teams">
+        <div class="sc-team"><div class="sc-team-name">${e.strHomeTeam}</div></div>
+        <div class="sc-score-box"><div class="sc-score">${score}</div></div>
+        <div class="sc-team" style="text-align:right"><div class="sc-team-name">${e.strAwayTeam}</div></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderStaticScores() {
+  const fixtures = [
+    {home:'West Ham',away:'Wolves',date:'Fri 10 Apr',time:'12:00 PDT',comp:'EPL MW32'},
+    {home:'Arsenal',away:'Bournemouth',date:'Sat 11 Apr',time:'04:30 PDT',comp:'EPL MW32'},
+    {home:'Brentford',away:'Everton',date:'Sat 11 Apr',time:'07:00 PDT',comp:'EPL MW32'},
+    {home:'Liverpool',away:'Fulham',date:'Sat 11 Apr',time:'09:30 PDT',comp:'EPL MW32'},
+    {home:'Sporting CP',away:'Arsenal',date:'Tue 7 Apr',time:'13:00 PDT',comp:'UCL QF'},
+    {home:'Real Madrid',away:'Bayern',date:'Tue 7 Apr',time:'13:00 PDT',comp:'UCL QF'},
+    {home:'Barcelona',away:'Atletico',date:'Wed 8 Apr',time:'13:00 PDT',comp:'UCL QF'},
+    {home:'PSG',away:'Liverpool',date:'Wed 8 Apr',time:'13:00 PDT',comp:'UCL QF'},
+  ];
+  return fixtures.map(f=>`<div class="score-card">
+    <div class="sc-meta">
+      <div class="sc-comp">${f.comp} • ${f.date}</div>
+      <div class="sc-status-ns">${f.time}</div>
+    </div>
+    <div class="sc-teams">
+      <div class="sc-team"><div class="sc-team-name">${f.home}</div></div>
+      <div class="sc-score-box"><div class="sc-score" style="font-size:1rem;color:var(--muted)">vs</div></div>
+      <div class="sc-team" style="text-align:right"><div class="sc-team-name">${f.away}</div></div>
+    </div>
+  </div>`).join('');
+}
+
+// =============================================
+// NEWS
+// =============================================
+async function loadNews() {
+  const container = document.getElementById('news-container');
+  try {
+    const rss = await fetch('https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Ffeeds.bbci.co.uk%2Fsport%2Ffootball%2Frss.xml&count=6');
+    const d = await rss.json();
+    const items = d.items || [];
+    if (items.length === 0) throw new Error();
+    container.innerHTML = items.map(it => {
+      const ago = getTimeAgo(new Date(it.pubDate));
+      return `<div class="news-card" onclick="window.open('${it.link}','_blank')">
+        <div class="nc-source">BBC Sport Football</div>
+        <div class="nc-title">${it.title}</div>
+        <div class="nc-desc">${(it.description||'').replace(/<[^>]+>/g,'')}</div>
+        <div class="nc-time">${ago}</div>
+      </div>`;
+    }).join('');
+  } catch(e) {
+    container.innerHTML = `<div class="news-card" style="grid-column:1/-1;border-style:dashed;cursor:default">
+      <div class="nc-source">&#128240; News</div>
+      <div class="nc-title">Could not load news feed</div>
+      <div class="nc-desc">BBC Sport RSS feed temporarily unavailable. Try refreshing.</div>
+    </div>`;
+  }
+}
+
+function getTimeAgo(date) {
+  const mins = Math.floor((Date.now() - date) / 60000);
+  if (mins < 60) return `${mins}m ago`;
+  const hrs = Math.floor(mins/60);
+  if (hrs < 24) return `${hrs}h ago`;
+  return `${Math.floor(hrs/24)}d ago`;
+}
+
+// =============================================
+// REFRESH ENGINE
+// =============================================
+let countdownVal = CONFIG.refreshInterval;
+let countdownTimer = null;
+
+function updateTimestamp() {
+  const now = new Date();
+  const pdtStr = now.toLocaleString('en-US', {timeZone:'America/Los_Angeles', hour:'2-digit', minute:'2-digit', second:'2-digit', weekday:'short', month:'short', day:'numeric'});
+  document.getElementById('last-updated').innerHTML = pdtStr + ' PDT';
+  document.getElementById('footer-ts').innerHTML = `Live data &bull; ${now.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}`;
+}
+
+function startCountdown() {
+  clearInterval(countdownTimer);
+  countdownVal = CONFIG.refreshInterval;
+  countdownTimer = setInterval(() => {
+    countdownVal--;
+    document.getElementById('countdown').textContent = countdownVal + 's';
+    if (countdownVal <= 0) triggerRefresh();
+  }, 1000);
+}
+
+async function triggerRefresh() {
+  const btn = document.getElementById('refresh-btn');
+  btn.classList.add('loading');
+  btn.innerHTML = '<i class="fa-solid fa-rotate-right"></i> Refreshing...';
+  clearInterval(countdownTimer);
+  countdownVal = CONFIG.refreshInterval;
+  document.getElementById('countdown').textContent = countdownVal + 's';
+  try {
+    await Promise.all([loadPolymarketOdds(), loadLiveScores(), loadNews()]);
+    updateTimestamp();
+  } catch(e) { console.warn('Refresh error:', e); }
+  btn.classList.remove('loading');
+  btn.innerHTML = '<i class="fa-solid fa-rotate-right"></i> Refresh Now';
+  startCountdown();
+}
+
+// INIT
+(async function init() {
+  updateTimestamp();
+  await triggerRefresh();
+})();
+</script>
 </body>
 </html>
