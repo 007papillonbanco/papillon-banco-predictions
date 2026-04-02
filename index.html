@@ -3,75 +3,395 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Papillon Banco Predictions</title>
+    <title>⚽ Papillon Banco Predictions • EPL • UCL • World Cup 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; }
-        h1 { color: #4CAF50; }
-        h2 { color: #333; }
-        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
-        th, td { border: 1px solid #ddd; padding: 8px; }
-        th { background-color: #f2f2f2; }
-        .prediction { margin: 20px 0; }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Roboto+Mono:wght@400;500&display=swap');
+        
+        body { font-family: 'Inter', system_ui, sans-serif; }
+        .match-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .match-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+        .header-gradient { background: linear-gradient(90deg, #0a0a0a, #1a1a2e); }
+        .score-box { font-family: 'Roboto Mono', monospace; }
+        .live-dot { animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+        table { border-collapse: collapse; }
+        th, td { padding: 10px 12px; text-align: left; }
+        tr:nth-child(even) { background-color: rgba(255,255,255,0.03); }
     </style>
 </head>
-<body>
-    <h1>Papillon Banco Predictions</h1>
-
-    <div class="prediction">
-        <h2>English Premier League Predictions</h2>
-        <table>
-            <tr>
-                <th>Match</th>
-                <th>Prediction</th>
-            </tr>
-            <tr>
-                <td>Team A vs Team B</td>
-                <td>Team A wins</td>
-            </tr>
-            <tr>
-                <td>Team C vs Team D</td>
-                <td>Draw</td>
-            </tr>
-            <!-- Add more predictions as needed -->
-        </table>
+<body class="bg-zinc-950 text-white">
+    <!-- HEADER -->
+    <div class="header-gradient border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-6 py-8">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-x-4">
+                    <div class="w-12 h-12 bg-emerald-500 rounded-3xl flex items-center justify-center text-4xl">⚽</div>
+                    <div>
+                        <h1 class="text-5xl font-bold tracking-tighter flex items-center gap-x-3">
+                            Papillon Banco Predictions
+                            <span class="text-emerald-400 text-3xl">🏆</span>
+                        </h1>
+                        <p class="text-emerald-400 text-lg font-medium">@papillonbanco90 • EPL • UCL • World Cup 2026</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center gap-x-8 text-sm">
+                    <a href="#epl" onclick="document.getElementById('epl').scrollIntoView({behavior:'smooth'})" class="hover:text-emerald-400 transition-colors">Premier League</a>
+                    <a href="#ucl" onclick="document.getElementById('ucl').scrollIntoView({behavior:'smooth'})" class="hover:text-emerald-400 transition-colors">Champions League</a>
+                    <a href="#wc" onclick="document.getElementById('wc').scrollIntoView({behavior:'smooth'})" class="hover:text-emerald-400 transition-colors">World Cup 2026</a>
+                    
+                    <div class="bg-white/10 text-white text-xs px-4 py-2 rounded-3xl flex items-center gap-x-2">
+                        <div class="w-2 h-2 bg-emerald-400 rounded-full live-dot"></div>
+                        LIVE MARKETS
+                    </div>
+                    
+                    <div class="text-xs text-zinc-400 font-mono text-right">
+                        Portland, OR • PDT<br>
+                        <span class="text-emerald-400">Updated: April 1, 2026 • 20:15</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- GLOBAL BETTING SNAPSHOT -->
+            <div class="mt-8 bg-white/5 border border-white/10 rounded-3xl p-6">
+                <h2 class="text-lg font-semibold mb-4 flex items-center gap-x-2">
+                    <i class="fa-solid fa-chart-simple"></i>
+                    Latest Polymarket + Kalshi Betting Favorites (April 1, 2026)
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white/5 rounded-2xl p-5">
+                        <div class="flex items-center gap-x-2 mb-3">
+                            <span class="text-2xl">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span>
+                            <span class="font-semibold">Premier League Winner 2025/26</span>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center">
+                                <span class="font-semibold">Arsenal</span>
+                                <div class="flex gap-x-3">
+                                    <span class="px-3 py-1 bg-emerald-500 text-black text-xs font-bold rounded-3xl">89% Polymarket</span>
+                                </div>
+                            </div>
+                            <div class="text-zinc-400 text-sm">Man City • 12%</div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white/5 rounded-2xl p-5">
+                        <div class="flex items-center gap-x-2 mb-3">
+                            <span class="text-2xl">⭐</span>
+                            <span class="font-semibold">Champions League Winner 2025/26</span>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center">
+                                <span class="font-semibold">Arsenal</span>
+                                <div class="flex gap-x-3">
+                                    <span class="px-3 py-1 bg-emerald-500 text-black text-xs font-bold rounded-3xl">27% Polymarket</span>
+                                </div>
+                            </div>
+                            <div class="text-xs text-emerald-400">QF 1st legs: April 7-8</div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white/5 rounded-2xl p-5">
+                        <div class="flex items-center gap-x-2 mb-3">
+                            <span class="text-2xl">🌍</span>
+                            <span class="font-semibold">2026 World Cup Winner</span>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center">
+                                <span class="font-semibold">Spain</span>
+                                <div class="flex gap-x-3">
+                                    <span class="px-3 py-1 bg-emerald-500 text-black text-xs font-bold rounded-3xl">16% Polymarket</span>
+                                </div>
+                            </div>
+                            <div class="text-xs text-emerald-400">Tournament starts June 11, 2026</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="prediction">
-        <h2>Champions League Predictions</h2>
-        <table>
-            <tr>
-                <th>Match</th>
-                <th>Prediction</th>
-            </tr>
-            <tr>
-                <td>Team E vs Team F</td>
-                <td>Team F wins</td>
-            </tr>
-            <tr>
-                <td>Team G vs Team H</td>
-                <td>Team G wins</td>
-            </tr>
-            <!-- Add more predictions as needed -->
-        </table>
+    <!-- EPL SECTION -->
+    <div id="epl" class="max-w-7xl mx-auto px-6 py-12">
+        <div class="flex items-center gap-x-4 mb-8">
+            <span class="text-5xl">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span>
+            <div>
+                <h2 class="text-4xl font-semibold">English Premier League • Matchweek 32</h2>
+                <p class="text-emerald-400">April 10–13, 2026 • Papillon Banco’s score predictions</p>
+            </div>
+        </div>
+
+        <!-- EPL STANDINGS -->
+        <div class="mb-12 bg-white/5 border border-white/10 rounded-3xl p-8">
+            <h3 class="text-2xl font-semibold mb-6 flex items-center gap-x-3"><i class="fa-solid fa-table"></i> Current EPL Standings (April 1, 2026)</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-white/20 text-zinc-400">
+                            <th class="font-medium">Pos</th>
+                            <th class="font-medium">Team</th>
+                            <th class="font-medium text-center">P</th>
+                            <th class="font-medium text-center">W</th>
+                            <th class="font-medium text-center">D</th>
+                            <th class="font-medium text-center">L</th>
+                            <th class="font-medium text-center">GF</th>
+                            <th class="font-medium text-center">GA</th>
+                            <th class="font-medium text-center">GD</th>
+                            <th class="font-medium text-center">Pts</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-zinc-100">
+                        <tr><td class="font-semibold">1</td><td class="font-semibold">Arsenal</td><td class="text-center">31</td><td class="text-center">21</td><td class="text-center">7</td><td class="text-center">3</td><td class="text-center">61</td><td class="text-center">22</td><td class="text-center text-emerald-400">+39</td><td class="text-center font-bold">70</td></tr>
+                        <tr><td class="font-semibold">2</td><td class="font-semibold">Manchester City</td><td class="text-center">30</td><td class="text-center">18</td><td class="text-center">7</td><td class="text-center">5</td><td class="text-center">60</td><td class="text-center">28</td><td class="text-center text-emerald-400">+32</td><td class="text-center font-bold">61</td></tr>
+                        <tr><td class="font-semibold">3</td><td class="font-semibold">Manchester United</td><td class="text-center">31</td><td class="text-center">15</td><td class="text-center">10</td><td class="text-center">6</td><td class="text-center">56</td><td class="text-center">43</td><td class="text-center text-emerald-400">+13</td><td class="text-center font-bold">55</td></tr>
+                        <tr><td class="font-semibold">4</td><td class="font-semibold">Aston Villa</td><td class="text-center">31</td><td class="text-center">16</td><td class="text-center">6</td><td class="text-center">9</td><td class="text-center">42</td><td class="text-center">37</td><td class="text-center text-emerald-400">+5</td><td class="text-center font-bold">54</td></tr>
+                        <tr><td class="font-semibold">5</td><td>Liverpool</td><td class="text-center">31</td><td class="text-center">14</td><td class="text-center">7</td><td class="text-center">10</td><td class="text-center">50</td><td class="text-center">42</td><td class="text-center text-emerald-400">+8</td><td class="text-center font-bold">49</td></tr>
+                        <tr><td class="font-semibold">6</td><td>Chelsea</td><td class="text-center">31</td><td class="text-center">13</td><td class="text-center">9</td><td class="text-center">9</td><td class="text-center">53</td><td class="text-center">38</td><td class="text-center text-emerald-400">+15</td><td class="text-center font-bold">48</td></tr>
+                        <tr><td>7</td><td>Brentford</td><td class="text-center">31</td><td class="text-center">13</td><td class="text-center">7</td><td class="text-center">11</td><td class="text-center">46</td><td class="text-center">42</td><td class="text-center">+4</td><td class="text-center font-bold">46</td></tr>
+                        <tr><td>8</td><td>Everton</td><td class="text-center">31</td><td class="text-center">13</td><td class="text-center">7</td><td class="text-center">11</td><td class="text-center">37</td><td class="text-center">35</td><td class="text-center">+2</td><td class="text-center font-bold">46</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-xs text-zinc-400 mt-4">Arsenal leading comfortably • Top 4 race remains tight</p>
+        </div>
+
+        <!-- MATCH PREDICTIONS -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="match-card bg-white/5 border border-white/10 rounded-3xl p-6">
+                <div class="flex justify-between text-sm text-zinc-400 mb-4">
+                    <div>Friday 10 April • 20:00 UK (12:00 PDT)</div>
+                    <div class="flex items-center text-emerald-400"><i class="fa-solid fa-clock mr-1"></i> Soon</div>
+                </div>
+                <div class="flex items-center justify-between">
+                    <div class="text-center flex-1"><div class="font-semibold text-lg">West Ham United</div></div>
+                    <div class="score-box bg-zinc-900 text-emerald-400 font-bold text-4xl px-6 py-2 rounded-2xl flex flex-col items-center leading-none">
+                        <span>2</span><span class="text-xs text-zinc-400 mt-1">PREDICTED</span><span class="text-3xl">–</span><span>1</span>
+                    </div>
+                    <div class="text-center flex-1"><div class="font-semibold text-lg">Wolverhampton Wanderers</div></div>
+                </div>
+                <div class="mt-6 text-center text-emerald-400 text-sm font-medium">West Ham win • 58% my confidence</div>
+            </div>
+            
+            <div class="match-card bg-white/5 border border-white/10 rounded-3xl p-6">
+                <div class="flex justify-between text-sm text-zinc-400 mb-4">
+                    <div>Saturday 11 April • 12:30 UK (04:30 PDT)</div>
+                </div>
+                <div class="flex items-center justify-between">
+                    <div class="text-center flex-1"><div class="font-semibold text-lg">Arsenal</div></div>
+                    <div class="score-box bg-zinc-900 text-emerald-400 font-bold text-4xl px-6 py-2 rounded-2xl flex flex-col items-center leading-none">
+                        <span>3</span><span class="text-xs text-zinc-400 mt-1">PREDICTED</span><span class="text-3xl">–</span><span>0</span>
+                    </div>
+                    <div class="text-center flex-1"><div class="font-semibold text-lg">AFC Bournemouth</div></div>
+                </div>
+                <div class="mt-6 text-center text-emerald-400 text-sm font-medium">Arsenal win • 92% my confidence</div>
+            </div>
+            
+            <div class="match-card bg-white/5 border border-white/10 rounded-3xl p-6">
+                <div class="flex justify-between text-sm text-zinc-400 mb-4">
+                    <div>Saturday 11 April • 15:00 UK (07:00 PDT)</div>
+                </div>
+                <div class="flex items-center justify-between">
+                    <div class="text-center flex-1"><div class="font-semibold text-lg">Brentford</div></div>
+                    <div class="score-box bg-zinc-900 text-emerald-400 font-bold text-4xl px-6 py-2 rounded-2xl flex flex-col items-center leading-none">
+                        <span>2</span><span class="text-xs text-zinc-400 mt-1">PREDICTED</span><span class="text-3xl">–</span><span>1</span>
+                    </div>
+                    <div class="text-center flex-1"><div class="font-semibold text-lg">Everton</div></div>
+                </div>
+                <div class="mt-6 text-center text-emerald-400 text-sm font-medium">Brentford win • 62% my confidence</div>
+            </div>
+            
+            <div class="match-card bg-white/5 border border-white/10 rounded-3xl p-6">
+                <div class="flex justify-between text-sm text-zinc-400 mb-4">
+                    <div>Saturday 11 April • 15:00 UK (07:00 PDT)</div>
+                </div>
+                <div class="flex items-center justify-between">
+                    <div class="text-center flex-1"><div class="font-semibold text-lg">Burnley</div></div>
+                    <div class="score-box bg-zinc-900 text-emerald-400 font-bold text-4xl px-6 py-2 rounded-2xl flex flex-col items-center leading-none">
+                        <span>1</span><span class="text-xs text-zinc-400 mt-1">PREDICTED</span><span class="text-3xl">–</span><span>2</span>
+                    </div>
+                    <div class="text-center flex-1"><div class="font-semibold text-lg">Brighton &amp; Hove Albion</div></div>
+                </div>
+                <div class="mt-6 text-center text-emerald-400 text-sm font-medium">Brighton win • 65% my confidence</div>
+            </div>
+            
+            <div class="match-card bg-white/5 border border-white/10 rounded-3xl p-6">
+                <div class="flex justify-between text-sm text-zinc-400 mb-4">
+                    <div>Saturday 11 April • 17:30 UK (09:30 PDT)</div>
+                </div>
+                <div class="flex items-center justify-between">
+                    <div class="text-center flex-1"><div class="font-semibold text-lg">Liverpool</div></div>
+                    <div class="score-box bg-zinc-900 text-emerald-400 font-bold text-4xl px-6 py-2 rounded-2xl flex flex-col items-center leading-none">
+                        <span>3</span><span class="text-xs text-zinc-400 mt-1">PREDICTED</span><span class="text-3xl">–</span><span>1</span>
+                    </div>
+                    <div class="text-center flex-1"><div class="font-semibold text-lg">Fulham</div></div>
+                </div>
+                <div class="mt-6 text-center text-emerald-400 text-sm font-medium">Liverpool win • 88% my confidence</div>
+            </div>
+            
+            <div class="match-card bg-white/5 border border-white/10 rounded-3xl p-6">
+                <div class="flex justify-between text-sm text-zinc-400 mb-4">
+                    <div>Sunday 12 April • 14:00 UK (06:00 PDT)</div>
+                </div>
+                <div class="flex items-center justify-between">
+                    <div class="text-center flex-1"><div class="font-semibold text-lg">Crystal Palace</div></div>
+                    <div class="score-box bg-zinc-900 text-emerald-400 font-bold text-4xl px-6 py-2 rounded-2xl flex flex-col items-center leading-none">
+                        <span>1</span><span class="text-xs text-zinc-400 mt-1">PREDICTED</span><span class="text-3xl">–</span><span>2</span>
+                    </div>
+                    <div class="text-center flex-1"><div class="font-semibold text-lg">Newcastle United</div></div>
+                </div>
+                <div class="mt-6 text-center text-emerald-400 text-sm font-medium">Newcastle win • 55% my confidence</div>
+            </div>
+        </div>
     </div>
 
-    <div class="prediction">
-        <h2>World Cup 2026 Predictions</h2>
-        <table>
-            <tr>
-                <th>Match</th>
-                <th>Prediction</th>
-            </tr>
-            <tr>
-                <td>Country X vs Country Y</td>
-                <td>Country X wins</td>
-            </tr>
-            <tr>
-                <td>Country Z vs Country W</td>
-                <td>Draw</td>
-            </tr>
-            <!-- Add more predictions as needed -->
-        </table>
+    <!-- UCL SECTION -->
+    <div id="ucl" class="max-w-7xl mx-auto px-6 py-12 bg-white/5">
+        <div class="flex items-center gap-x-4 mb-8">
+            <span class="text-5xl">⭐</span>
+            <div>
+                <h2 class="text-4xl font-semibold">UEFA Champions League • Quarter-Finals 1st Legs</h2>
+                <p class="text-emerald-400">April 7–8, 2026 • Papillon Banco’s predictions</p>
+            </div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="match-card bg-white/5 border border-white/10 rounded-3xl p-6">
+                <div class="text-sm text-zinc-400 mb-4">Tuesday 7 April • 21:00 CET (12:00 PDT)</div>
+                <div class="flex items-center justify-between">
+                    <div class="text-center flex-1"><div class="font-semibold text-lg">Sporting CP</div></div>
+                    <div class="score-box bg-zinc-900 text-emerald-400 font-bold text-4xl px-6 py-2 rounded-2xl flex flex-col items-center leading-none">
+                        <span>1</span><span class="text-3xl">–</span><span>3</span>
+                    </div>
+                    <div class="text-center flex-1"><div class="font-semibold text-lg">Arsenal</div></div>
+                </div>
+                <div class="mt-6 text-center text-emerald-400 text-sm font-medium">Arsenal win • 78% my confidence</div>
+            </div>
+            
+            <div class="match-card bg-white/5 border border-white/10 rounded-3xl p-6">
+                <div class="text-sm text-zinc-400 mb-4">Tuesday 7 April • 21:00 CET (12:00 PDT)</div>
+                <div class="flex items-center justify-between">
+                    <div class="text-center flex-1"><div class="font-semibold text-lg">Real Madrid</div></div>
+                    <div class="score-box bg-zinc-900 text-emerald-400 font-bold text-4xl px-6 py-2 rounded-2xl flex flex-col items-center leading-none">
+                        <span>2</span><span class="text-3xl">–</span><span>2</span>
+                    </div>
+                    <div class="text-center flex-1"><div class="font-semibold text-lg">Bayern München</div></div>
+                </div>
+                <div class="mt-6 text-center text-emerald-400 text-sm font-medium">Draw • High-scoring thriller expected</div>
+            </div>
+            
+            <div class="match-card bg-white/5 border border-white/10 rounded-3xl p-6">
+                <div class="text-sm text-zinc-400 mb-4">Wednesday 8 April • 21:00 CET (12:00 PDT)</div>
+                <div class="flex items-center justify-between">
+                    <div class="text-center flex-1"><div class="font-semibold text-lg">Barcelona</div></div>
+                    <div class="score-box bg-zinc-900 text-emerald-400 font-bold text-4xl px-6 py-2 rounded-2xl flex flex-col items-center leading-none">
+                        <span>2</span><span class="text-3xl">–</span><span>1</span>
+                    </div>
+                    <div class="text-center flex-1"><div class="font-semibold text-lg">Atlético Madrid</div></div>
+                </div>
+                <div class="mt-6 text-center text-emerald-400 text-sm font-medium">Barcelona win • 64% my confidence</div>
+            </div>
+            
+            <div class="match-card bg-white/5 border border-white/10 rounded-3xl p-6">
+                <div class="text-sm text-zinc-400 mb-4">Wednesday 8 April • 21:00 CET (12:00 PDT)</div>
+                <div class="flex items-center justify-between">
+                    <div class="text-center flex-1"><div class="font-semibold text-lg">Paris Saint-Germain</div></div>
+                    <div class="score-box bg-zinc-900 text-emerald-400 font-bold text-4xl px-6 py-2 rounded-2xl flex flex-col items-center leading-none">
+                        <span>2</span><span class="text-3xl">–</span><span>2</span>
+                    </div>
+                    <div class="text-center flex-1"><div class="font-semibold text-lg">Liverpool</div></div>
+                </div>
+                <div class="mt-6 text-center text-emerald-400 text-sm font-medium">Draw • Entertaining 4-goal game expected</div>
+            </div>
+        </div>
     </div>
+
+    <!-- WORLD CUP SECTION -->
+    <div id="wc" class="max-w-7xl mx-auto px-6 py-12">
+        <div class="flex items-center gap-x-4 mb-8">
+            <span class="text-5xl">🌍</span>
+            <div>
+                <h2 class="text-4xl font-semibold">FIFA World Cup 2026 • Selected Opening Fixtures</h2>
+                <p class="text-emerald-400">June 2026 • Papillon Banco’s predictions</p>
+            </div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="match-card bg-white/5 border border-white/10 rounded-3xl p-6">
+                <div class="flex justify-between text-sm text-zinc-400 mb-4">
+                    <div>Thursday 11 June 2026 • 19:00 local (Mexico City)</div>
+                </div>
+                <div class="flex items-center justify-between">
+                    <div class="text-center flex-1"><div class="font-semibold text-lg">Mexico</div></div>
+                    <div class="score-box bg-zinc-900 text-emerald-400 font-bold text-4xl px-6 py-2 rounded-2xl flex flex-col items-center leading-none">
+                        <span>2</span><span class="text-3xl">–</span><span>0</span>
+                    </div>
+                    <div class="text-center flex-1"><div class="font-semibold text-lg">South Africa</div></div>
+                </div>
+                <div class="mt-6 text-center text-emerald-400 text-sm font-medium">Mexico win • Hosts get the party started</div>
+            </div>
+            
+            <div class="match-card bg-white/5 border border-white/10 rounded-3xl p-6">
+                <div class="flex justify-between text-sm text-zinc-400 mb-4">
+                    <div>Thursday 11 June 2026 • 22:00 local</div>
+                </div>
+                <div class="flex items-center justify-between">
+                    <div class="text-center flex-1"><div class="font-semibold text-lg">South Korea</div></div>
+                    <div class="score-box bg-zinc-900 text-emerald-400 font-bold text-4xl px-6 py-2 rounded-2xl flex flex-col items-center leading-none">
+                        <span>1</span><span class="text-3xl">–</span><span>1</span>
+                    </div>
+                    <div class="text-center flex-1"><div class="font-semibold text-lg">Czechia</div></div>
+                </div>
+                <div class="mt-6 text-center text-emerald-400 text-sm font-medium">Draw • Evenly matched Group A clash</div>
+            </div>
+            
+            <div class="match-card bg-white/5 border border-white/10 rounded-3xl p-6">
+                <div class="flex justify-between text-sm text-zinc-400 mb-4">
+                    <div>Friday 12 June 2026 • 15:00 local (Toronto)</div>
+                </div>
+                <div class="flex items-center justify-between">
+                    <div class="text-center flex-1"><div class="font-semibold text-lg">Canada</div></div>
+                    <div class="score-box bg-zinc-900 text-emerald-400 font-bold text-4xl px-6 py-2 rounded-2xl flex flex-col items-center leading-none">
+                        <span>2</span><span class="text-3xl">–</span><span>1</span>
+                    </div>
+                    <div class="text-center flex-1"><div class="font-semibold text-lg">Bosnia and Herzegovina</div></div>
+                </div>
+                <div class="mt-6 text-center text-emerald-400 text-sm font-medium">Canada win • Host nation momentum</div>
+            </div>
+            
+            <div class="match-card bg-white/5 border border-white/10 rounded-3xl p-6">
+                <div class="flex justify-between text-sm text-zinc-400 mb-4">
+                    <div>Friday 12 June 2026 • 21:00 local (Los Angeles)</div>
+                </div>
+                <div class="flex items-center justify-between">
+                    <div class="text-center flex-1"><div class="font-semibold text-lg">USA</div></div>
+                    <div class="score-box bg-zinc-900 text-emerald-400 font-bold text-4xl px-6 py-2 rounded-2xl flex flex-col items-center leading-none">
+                        <span>3</span><span class="text-3xl">–</span><span>1</span>
+                    </div>
+                    <div class="text-center flex-1"><div class="font-semibold text-lg">Paraguay</div></div>
+                </div>
+                <div class="mt-6 text-center text-emerald-400 text-sm font-medium">USA win • Big home crowd boost</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="max-w-7xl mx-auto px-6 py-12 border-t border-white/10 text-xs text-zinc-400 flex flex-col md:flex-row justify-between items-center gap-y-4">
+        <div>
+            Predictions by Papillon Banco (@papillonbanco90) • For entertainment &amp; analysis only<br>
+            Betting markets shown are live Polymarket &amp; Kalshi futures as of April 1, 2026
+        </div>
+        <div class="font-mono text-emerald-400">Made instantly by Grok • Just say “update” for the next refresh</div>
+    </div>
+
+    <script>
+        console.log('%c✅ Papillon Banco Predictions ready! Open in browser and enjoy ⚽', 'color:#00ff9d; font-family:monospace');
+    </script>
 </body>
-</html>
+        </html>
